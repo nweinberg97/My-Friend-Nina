@@ -1,5 +1,5 @@
 // Tiny hash router — works on any static host with no rewrite rules.
-import { useEffect, useState, type ReactNode, type MouseEvent, type CSSProperties } from 'react';
+import { useEffect, useState, type ReactNode, type MouseEvent } from 'react';
 
 function current() {
   const h = window.location.hash.replace(/^#/, '');
@@ -32,12 +32,11 @@ export function useRoute() {
   return path;
 }
 
-export function Link({ to, className, children, ariaLabel, onClick, style }: { to: string; className?: string; children: ReactNode; ariaLabel?: string; onClick?: () => void; style?: CSSProperties }) {
+export function Link({ to, className, children, ariaLabel, onClick }: { to: string; className?: string; children: ReactNode; ariaLabel?: string; onClick?: () => void }) {
   return (
     <a
       href={'#' + to}
       className={className}
-      style={style}
       aria-label={ariaLabel}
       onClick={(e: MouseEvent) => {
         e.preventDefault();

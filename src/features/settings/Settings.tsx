@@ -88,7 +88,7 @@ function InfoPage({ title, children }: { title: string; children: ReactNode }) {
 export function About() {
   return (
     <InfoPage title="About">
-      <img src="images/chairlift.jpg" alt="Nina on a chairlift above the mountains" className="aspect-[16/10] w-full rounded-[22px] object-cover" />
+      <img src="images/overlook.jpg" alt="Nina on a rocky lookout above the ocean" className="aspect-[16/10] w-full rounded-[22px] object-cover" />
       <h1 className="mt-6 font-serif text-[32px] leading-tight">Hey, it’s Nina.</h1>
       <p className="mt-3">This is my little corner of the internet for the days you’re crushing it, the days you’re just getting through, and every couch-and-soup day in between. Check in, pick a tiny thing, get stuff off your chest. That’s it.</p>
       <p className="mt-3 text-[13px] text-muted">[Draft intro, written for Nina to rewrite in her own words. We haven’t made up any facts about her life.]</p>

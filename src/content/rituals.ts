@@ -9,15 +9,7 @@ export const PILLARS: Pillar[] = [
   { id: 'recharge', name: 'Rest & Recharge', short: 'Recharge', blurb: 'Downtime counts as time well spent.' },
 ];
 
-// Each pillar has its own colour so the Rituals tab reads at a glance.
-export const PILLAR_COLOR: Record<PillarId, { solid: string; tint: string; text: string }> = {
-  nourish: { solid: '#F05A1A', tint: '#FFE6D6', text: '#A8380A' },
-  move: { solid: '#E6005C', tint: '#FFE1EC', text: '#C4004E' },
-  connect: { solid: '#2F6FD6', tint: '#DCEBFF', text: '#2459B0' },
-  recharge: { solid: '#1F8A84', tint: '#D5F0EC', text: '#176A65' },
-};
-
-export const PILLAR_BY_ID =Object.fromEntries(PILLARS.map((p) => [p.id, p])) as Record<PillarId, Pillar>;
+export const PILLAR_BY_ID = Object.fromEntries(PILLARS.map((p) => [p.id, p])) as Record<PillarId, Pillar>;
 
 type Seed = Omit<Ritual, 'selected' | 'archived' | 'custom'> & { selected?: boolean };
 
@@ -53,7 +45,7 @@ export function starterRituals(): Ritual[] {
 export const NINA_PICKS: { ritualId: string; image: string; title: string; note: string }[] = [
   { ritualId: 'r-move-outside', image: 'images/seawall.jpg', title: 'Get outside', note: 'If in doubt, go outside. Even for five minutes.' },
   { ritualId: 'r-move-play', image: 'images/cycling.jpg', title: 'Play something', note: "Pick the movement that feels like recess, not a punishment." },
-  { ritualId: 'r-connect-voice', image: 'images/chairlift.jpg', title: 'Voice note to self', note: 'Talk it out. You always sound wiser than you think.' },
+  { ritualId: 'r-connect-voice', image: 'images/blazer.jpg', title: 'Voice note to self', note: 'Talk it out. You always sound wiser than you think.' },
   { ritualId: 'r-recharge-calm', image: 'images/overlook.jpg', title: 'A calm moment', note: "Find a view, any view, and just look at it for a minute." },
 ];
 

@@ -30,6 +30,11 @@ export function App() {
     meta?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#F9F4EE');
   }, [mood, isLanding, isInfo, prefs.onboarded, path]);
 
+  const embedded = window.self !== window.top;
+  useEffect(() => {
+    if (status === 'ready' && embedded && isLanding) navigate(prefs.onboarded ? '/today' : '/welcome', { replace: true });
+  }, [status, embedded, isLanding, prefs.onboarded]);
+
   useEffect(() => { window.scrollTo({ top: 0 }); }, [path]);
 
   // New users who deep-link into the app go through onboarding first.
@@ -58,6 +63,7 @@ export function App() {
   let page;
   let tabs = false;
   const m = (re: RegExp) => path.match(re);
+  if (isLanding && embedded) return null;
   if (isLanding) page = <Landing />;
   else if (path === '/welcome') page = <Onboarding />;
   else if (path === '/today') { page = <Today />; tabs = true; }

@@ -43,15 +43,3 @@ export function StateIcon({ state, size }: { state: EnergyState; size?: number }
   if (state === 'low') return <Battery size={size} />;
   return <Moon size={size} />;
 }
-
-export const Droplet = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z" /></svg>);
-export const Shoe = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M3 16v-5l4-1 3 3 5 1 5 2v2H3z" /><path d="M7 10V6M3 19h18" /></svg>);
-export const Chat = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M4 5h16v11H9l-5 4z" /><path d="M8 10h8" /></svg>);
-
-import type { PillarId } from '../types';
-export function PillarIcon({ pillar, size }: { pillar: PillarId; size?: number }) {
-  if (pillar === 'nourish') return <Droplet size={size} />;
-  if (pillar === 'move') return <Shoe size={size} />;
-  if (pillar === 'connect') return <Chat size={size} />;
-  return <Moon size={size} />;
-}

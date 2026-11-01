@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import type { EnergyState, PillarId, Ritual, RitualSize } from '../types';
 import { useApp } from '../lib/store';
-import { PILLAR_BY_ID, PILLAR_COLOR, PILLARS, SIZE_LABEL } from '../content/rituals';
-import { Burst } from './Burst';
+import { PILLAR_BY_ID, PILLARS, SIZE_LABEL } from '../content/rituals';
 import { COMPLETION_LINES, pick } from '../content/nina';
 import { Button, Sheet, cx, Eyebrow } from './ui';
-import { Archive, Check, Edit, Undo, PillarIcon } from './Icons';
+import { Archive, Check, Edit, Undo } from './Icons';
 import { uid } from '../lib/dates';
 
 export function suggestedSize(state: EnergyState): RitualSize {
@@ -28,7 +27,7 @@ export function SizePicker({ value, onChange, ritual, suggested }: { value: Ritu
             {value === s && <span className="size-1.5 rounded-full bg-accent-ink" />}
           </span>
           <span className="flex-1">
-            <span className="block text-[12px] font-semibold text-muted">{SIZE_LABEL[s]}{suggested === s && <span className="ml-2 font-medium tracking-normal text-accent-text">· suggested today</span>}</span>
+            <span className="block text-[12px] font-semibold tracking-[0.12em] text-muted uppercase">{SIZE_LABEL[s]}{suggested === s && <span className="ml-2 font-medium normal-case tracking-normal text-accent-text">· suggested today</span>}</span>
             <span className="block text-[15px] text-ink">{ritual.sizes[s]}</span>
           </span>
         </button>
@@ -122,21 +121,15 @@ export function RitualCard({ ritual, onOpen, size, highlight }: { ritual: Ritual
   const { data, today } = useApp();
   const done = data.completions.find((c) => c.ritualId === ritual.id && c.date === today);
   const showSize = done?.size ?? size;
-  const c = PILLAR_COLOR[ritual.pillarId];
   return (
-    <button
-      onClick={onOpen}
-      style={done ? { background: c.tint, borderColor: 'transparent' } : undefined}
-      className={cx('group flex w-full items-center gap-4 rounded-[20px] border border-line bg-surface p-3.5 text-left transition active:scale-[.99]', !done && 'hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-16px_rgba(42,26,46,.5)]', highlight && !done && 'ring-2 ring-accent/40')}
-    >
-      <span className="relative grid size-12 shrink-0 place-items-center rounded-[16px] transition" style={{ background: done ? c.solid : c.tint, color: done ? '#fff' : c.solid }} aria-hidden="true">
-        {done ? <span className="anim-pop"><Check size={22} /></span> : <PillarIcon pillar={ritual.pillarId} size={22} />}
-        <Burst trigger={done?.id} />
+    <button onClick={onOpen} className={cx('group flex w-full items-center gap-4 rounded-[18px] border p-4 text-left transition', done ? 'border-transparent bg-soft/70' : 'border-line bg-surface hover:border-accent', highlight && !done && 'ring-2 ring-accent/30')}>
+      <span className={cx('grid size-11 shrink-0 place-items-center rounded-full border-2 transition', done ? 'anim-pop border-accent bg-accent text-accent-ink' : 'border-line text-transparent group-hover:border-accent')} aria-hidden="true">
+        <Check size={20} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[12px] font-semibold" style={{ color: c.text }}>{PILLAR_BY_ID[ritual.pillarId].short}{showSize && <span className="font-medium text-muted"> / {SIZE_LABEL[showSize]}</span>}</span>
-        <span className="block truncate text-[16px] font-semibold">{ritual.name}</span>
-        {showSize && <span className="block truncate text-[14px] text-muted">{done ? `Done: ${ritual.sizes[showSize].toLowerCase()}` : ritual.sizes[showSize]}</span>}
+        <span className="block text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">{PILLAR_BY_ID[ritual.pillarId].short}{showSize && <> · {SIZE_LABEL[showSize]}</>}</span>
+        <span className={cx('block truncate text-[16px] font-medium', done && 'text-muted line-through decoration-accent/50')}>{ritual.name}</span>
+        {showSize && <span className="block truncate text-[14px] text-muted">{ritual.sizes[showSize]}</span>}
       </span>
       <span className="sr-only">{done ? 'Done today. Open to change or undo.' : 'Open to choose a size and mark done.'}</span>
     </button>
