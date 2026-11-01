@@ -251,7 +251,7 @@ export function NoteDetail({ id }: { id: string }) {
       <TopBar title="A little note to me" onBack={() => navigate('/reflections')} />
       <div className="px-5 pb-10">
         <article className="paper rotate-[-.5deg] rounded-[22px] bg-[#FFF8E8] p-6 text-[#3A302B] shadow-[0_18px_40px_-24px_rgba(0,0,0,.45)]">
-          <p className="text-[12px] tracking-[0.14em] uppercase opacity-60">{prettyDate(n.createdAt.slice(0, 10))}</p>
+          <p className="text-[12px] opacity-60">{prettyDate(n.createdAt.slice(0, 10))}</p>
           <p className="mt-4 text-[13px] opacity-70">I’ve been giving myself a hard time about…</p>
           <p className="font-hand text-[24px] leading-snug">{n.lookBack}</p>
           <p className="mt-4 text-[13px] opacity-70">What my best friend would say:</p>

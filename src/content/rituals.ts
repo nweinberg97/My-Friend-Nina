@@ -9,7 +9,15 @@ export const PILLARS: Pillar[] = [
   { id: 'recharge', name: 'Rest & Recharge', short: 'Recharge', blurb: 'Downtime counts as time well spent.' },
 ];
 
-export const PILLAR_BY_ID = Object.fromEntries(PILLARS.map((p) => [p.id, p])) as Record<PillarId, Pillar>;
+// Each pillar has its own colour so the Rituals tab reads at a glance.
+export const PILLAR_COLOR: Record<PillarId, { solid: string; tint: string; text: string }> = {
+  nourish: { solid: '#F05A1A', tint: '#FFE6D6', text: '#A8380A' },
+  move: { solid: '#E6005C', tint: '#FFE1EC', text: '#C4004E' },
+  connect: { solid: '#2F6FD6', tint: '#DCEBFF', text: '#2459B0' },
+  recharge: { solid: '#1F8A84', tint: '#D5F0EC', text: '#176A65' },
+};
+
+export const PILLAR_BY_ID =Object.fromEntries(PILLARS.map((p) => [p.id, p])) as Record<PillarId, Pillar>;
 
 type Seed = Omit<Ritual, 'selected' | 'archived' | 'custom'> & { selected?: boolean };
 

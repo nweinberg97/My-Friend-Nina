@@ -3,12 +3,31 @@ import { useApp } from '../../lib/store';
 import { Link, navigate } from '../../lib/router';
 import { Avatar, Blobs, Button, Card, EnergySelector, Eyebrow, NinaSig, Page, Waves, cx } from '../../components/ui';
 import { RitualCard, RitualSheet, suggestedSize } from '../../components/RitualSheet';
+import { MomentBubbles } from '../../components/Moments';
 import { Check, Mic, Pen, Settings, Sparkle, Wind, Heart, X } from '../../components/Icons';
 import { encouragementFor, EVENING_GREETINGS, GREETINGS, INTENTION_PROMPT, KIND_THINGS, noteFor, pick, RETURN_LINES, STATE_META } from '../../content/nina';
 import { addDays, isEvening, prettyDate } from '../../lib/dates';
 import type { EnergyState, Ritual } from '../../types';
 
+const STATE_PHOTO: Record<EnergyState | 'none', string> = {
+  high: 'images/beach-pink.jpg',
+  steady: 'images/seawall.jpg',
+  low: 'images/chairlift.jpg',
+  rest: 'images/overlook.jpg',
+  none: 'images/cycling.jpg',
+};
+const STATE_CAPTION: Record<EnergyState, string> = { high: 'big day!', steady: 'easy does it', low: 'slow & sweet', rest: 'just breathe' };
+
 const COUNT: Record<EnergyState, number> = { high: 4, steady: 3, low: 1, rest: 0 };
+
+function QuickTile({ Icon, label, bg, fg }: { Icon: (p: { size?: number }) => JSX.Element; label: string; bg: string; fg: string }) {
+  return (
+    <span className="flex min-h-[96px] flex-col items-start justify-between rounded-[20px] p-3.5 text-[15px] font-semibold" style={{ background: bg, color: fg }}>
+      <span className="grid size-9 place-items-center rounded-full" style={{ background: fg === '#fff' ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.6)' }}><Icon size={19} /></span>
+      {label}
+    </span>
+  );
+}
 
 export function Today() {
   const { today, checkin, mood, data, prefs, awayDays, setEnergy, setIntention, setKindThing, toast } = useApp();
@@ -50,13 +69,13 @@ export function Today() {
       <Blobs />
       <div className="safe-top relative px-5">
         <div className="flex h-16 items-center justify-between">
-          <span className="font-serif text-[20px] italic">my friend <span className="text-accent-text">nina</span></span>
+          <span className="font-serif text-[21px] font-extrabold tracking-tight">my friend <span className="font-hand text-[26px] font-bold text-accent-text">nina</span></span>
           <Link to="/settings" className="grid size-11 place-items-center rounded-full text-muted hover:bg-soft/60" ariaLabel="Settings"><Settings size={21} /></Link>
         </div>
 
         <header className="anim-rise pt-2">
-          <Eyebrow>{prettyDate(today)}</Eyebrow>
-          <h1 className="mt-2 font-serif text-[38px] leading-[1.05]">{greeting.replace(/\?$/, firstName + '?').replace(/\.$/, firstName + '.')}</h1>
+          <p className="text-[14px] font-medium text-muted">{prettyDate(today)}</p>
+          <h1 className="mt-1 font-serif text-[36px] leading-[1.02]">{greeting.replace(/\?$/, firstName + '?').replace(/\.$/, firstName + '.')}</h1>
         </header>
 
         {showReturn && (
@@ -67,20 +86,20 @@ export function Today() {
           </div>
         )}
 
-        {/* Nina's note */}
-        <section aria-label="Nina's note for today" className="paper anim-rise relative mt-6 overflow-hidden rounded-[22px] border border-line bg-surface p-5" style={{ animationDelay: '60ms' }}>
-          <div className="flex items-center gap-3">
-            <Avatar size={38} />
-            <div>
-              <p className="text-[14px] font-medium">A note from Nina</p>
-              <p className="text-[12px] text-muted">{state ? `for a ${STATE_META[state].label.toLowerCase()} day` : 'for whatever today is'}</p>
-            </div>
+        {/* Nina's note: the "sky card", wearing today's colour personality */}
+        <section aria-label="Nina's note for today" className="sky anim-rise relative mt-7 overflow-hidden rounded-[28px] p-5 pb-6 shadow-[0_24px_44px_-26px_var(--accent)]" style={{ animationDelay: '60ms' }}>
+          <div aria-hidden="true" className="anim-drift absolute -right-10 -bottom-16 size-48 rounded-full bg-white/10" />
+          <div className="polaroid relative float-right -mt-1 -mr-1 mb-2 ml-3 w-[96px] rotate-[6deg]">
+            <img src={STATE_PHOTO[state ?? 'none']} alt="" className="aspect-[4/5] w-full rounded-[3px] object-cover" />
+            <span className="absolute inset-x-0 bottom-1 text-center font-hand text-[16px] leading-none text-[#2A1A2E]">{state ? STATE_CAPTION[state] : 'hi you'}</span>
           </div>
-          <p className="mt-4 font-serif text-[22px] leading-snug">
+          <p className="relative text-[14px] font-semibold text-white/85">A note from Nina</p>
+          <p className="relative text-[13px] text-white/75">{state ? `for a ${STATE_META[state].label.toLowerCase()} day` : 'for whatever today is'}</p>
+          <p className="relative mt-4 font-serif text-[24px] leading-[1.18] font-bold text-white">
             {state ? noteFor(state, today) : "Before anything else: how are you, really? Pick whatever's true. I'll meet you there."}
           </p>
-          <div className="mt-2 text-right"><NinaSig /></div>
-          {mood === 'rest' && state && <Waves className="absolute inset-x-0 bottom-0 h-8 text-accent opacity-20" />}
+          <p className="relative clear-both pt-2 font-hand text-[26px] leading-none text-white/95">love, Nina</p>
+          {mood === 'rest' && state && <Waves className="absolute inset-x-0 bottom-0 h-8 text-white opacity-30" />}
         </section>
 
         {/* Check-in */}
@@ -168,25 +187,26 @@ export function Today() {
               </section>
             )}
 
-            {/* Encouragement */}
+            {/* Encouragement: a sticky note from Nina */}
             {enc && (
-              <section aria-label="A little reminder" className="mt-8 rounded-[22px] border border-line bg-surface p-5">
-                <p className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.14em] text-muted uppercase"><Sparkle size={14} /> A little reminder</p>
-                <p className="mt-2 font-hand text-[25px] leading-snug">{enc.body}</p>
+              <section aria-label="A little reminder" className="relative mt-9 rotate-[-1.2deg] rounded-[6px] bg-butter p-5 pt-6 text-[#3A2A12] shadow-[0_18px_30px_-20px_rgba(120,80,0,.55)]">
+                <span aria-hidden="true" className="absolute -top-3 left-1/2 h-6 w-20 -translate-x-1/2 rotate-[2deg] rounded-[3px] bg-white/70" />
+                <p className="flex items-center gap-1.5 text-[13px] font-semibold text-[#8A5A00]"><Sparkle size={14} /> A little reminder</p>
+                <p className="mt-1 font-hand text-[27px] leading-[1.15]">{enc.body}</p>
               </section>
             )}
 
             {/* Quick reflection */}
-            <section aria-labelledby="ref-h" className="mt-8">
+            <section aria-labelledby="ref-h" className="mt-9">
               <h2 id="ref-h" className="font-serif text-[24px]">Anything on your mind?</h2>
               <div className="mt-3 grid grid-cols-3 gap-2">
                 {[
-                  { to: '/reflections/new/voice', label: 'Voice note', Icon: Mic },
-                  { to: '/reflections/new/write', label: 'Write', Icon: Pen },
-                  { to: '/reflections/new/get-it-out', label: 'Get it out', Icon: Wind },
-                ].map(({ to, label, Icon }) => (
-                  <Link key={to} to={to} className="flex min-h-[84px] flex-col items-center justify-center gap-2 rounded-[16px] border border-line bg-surface text-[14px] font-medium hover:border-accent">
-                    <Icon size={22} />{label}
+                  { to: '/reflections/new/voice', label: 'Voice note', Icon: Mic, bg: '#E6005C', fg: '#fff' },
+                  { to: '/reflections/new/write', label: 'Write', Icon: Pen, bg: '#FFC93C', fg: '#3A2A12' },
+                  { to: '/reflections/new/get-it-out', label: 'Get it out', Icon: Wind, bg: '#2F6FD6', fg: '#fff' },
+                ].map(({ to, label, Icon, bg, fg }) => (
+                  <Link key={to} to={to} className="block rounded-[20px] transition hover:-translate-y-0.5 active:scale-[.97]">
+                    <QuickTile Icon={Icon} label={label} bg={bg} fg={fg} />
                   </Link>
                 ))}
               </div>
@@ -194,24 +214,12 @@ export function Today() {
 
             {/* gentle week */}
             {prefs.littleMoments && (
-              <section aria-label="Your week" className="mt-8 mb-4">
-                <p className="text-[12px] font-semibold tracking-[0.14em] text-muted uppercase">Little moments this week</p>
-                <div className="mt-3 flex justify-between">
-                  {weekDays.map((d) => {
-                    const ci = data.checkins[d];
-                    const moments = data.completions.filter((c) => c.date === d).length + data.reflections.filter((r) => r.createdAt.slice(0, 10) === d).length;
-                    const isToday = d === today;
-                    return (
-                      <div key={d} className="flex flex-col items-center gap-1.5">
-                        <span className={cx('grid size-9 place-items-center rounded-full text-[11px]', moments > 0 ? 'bg-accent text-accent-ink' : ci?.state === 'rest' ? 'bg-soft text-ink' : 'border border-line text-muted', isToday && 'ring-2 ring-accent/30 ring-offset-2 ring-offset-bg')} title={moments ? `${moments} little moments` : ci?.state === 'rest' ? 'Rest day' : ''}>
-                          {moments > 0 ? moments : ci?.state === 'rest' ? '~' : ''}
-                        </span>
-                        <span className={cx('text-[11px]', isToday ? 'font-semibold text-ink' : 'text-muted')}>{new Date(d + 'T12:00').toLocaleDateString(undefined, { weekday: 'narrow' })}</span>
-                      </div>
-                    );
-                  })}
+              <section aria-labelledby="week-h" className="mt-9 mb-4 rounded-[24px] bg-surface p-4 shadow-[0_14px_30px_-24px_rgba(42,26,46,.5)]">
+                <div className="flex items-baseline justify-between">
+                  <h2 id="week-h" className="font-serif text-[20px]">Your week, in little moments</h2>
                 </div>
-                <p className="mt-3 text-[13px] text-muted">No streaks here. Rest days are part of the rhythm.</p>
+                <div className="mt-3"><MomentBubbles days={7} showLabels /></div>
+                <p className="mt-3 text-[13px] text-muted">No streaks. Rest days get a little moon.</p>
               </section>
             )}
           </>

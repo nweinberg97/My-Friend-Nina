@@ -3,7 +3,8 @@ import { useApp } from '../../lib/store';
 import { Button, Eyebrow, Page, cx } from '../../components/ui';
 import { RitualCard, RitualEditor, RitualSheet, suggestedSize } from '../../components/RitualSheet';
 import { Plus, Check } from '../../components/Icons';
-import { NINA_PICKS, PILLARS } from '../../content/rituals';
+import { NINA_PICKS, PILLARS, PILLAR_COLOR } from '../../content/rituals';
+import { PillarIcon } from '../../components/Icons';
 import type { PillarId, Ritual } from '../../types';
 
 export function Rituals() {
@@ -26,7 +27,7 @@ export function Rituals() {
     <Page>
       <div className="safe-top px-5">
         <header className="pt-6">
-          <Eyebrow>The four pillars</Eyebrow>
+          <Eyebrow>Four pillars, any size</Eyebrow>
           <h1 className="mt-2 font-serif text-[40px] leading-[1.05]">Rituals</h1>
           <p className="mt-2 text-[15px] text-muted">
             {mood === 'rest' && checkin ? 'Rest day. These are here if you want them, not because you have to.' : 'Little things that make you feel like you. Pick any size. They all count.'}
@@ -58,15 +59,21 @@ export function Rituals() {
         {/* view toggle */}
         <div role="tablist" aria-label="Ritual collections" className="mt-6 flex rounded-[14px] border border-line bg-surface p-1">
           {([['mine', `Mine (${mine.length})`], ['library', `Library (${library.length})`], ['archived', 'Archived']] as const).map(([v, label]) => (
-            <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)} className={cx('min-h-10 flex-1 rounded-[10px] text-[14px] font-medium transition', view === v ? 'bg-soft text-ink' : 'text-muted')}>{label}</button>
+            <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)} className={cx('min-h-10 flex-1 rounded-[10px] text-[14px] font-medium transition', view === v ? 'bg-accent text-accent-ink' : 'text-muted')}>{label}</button>
           ))}
         </div>
 
         {/* pillar filter */}
         <div className="no-scrollbar -mx-5 mt-3 flex gap-2 overflow-x-auto px-5">
-          {[{ id: 'all' as const, short: 'All' }, ...PILLARS].map((p) => (
-            <button key={p.id} aria-pressed={filter === p.id} onClick={() => setFilter(p.id)} className={cx('min-h-10 shrink-0 rounded-full border px-4 text-[14px]', filter === p.id ? 'border-accent bg-accent text-accent-ink' : 'border-line bg-surface')}>{p.short}</button>
-          ))}
+          {[{ id: 'all' as const, short: 'All' }, ...PILLARS].map((p) => {
+            const on = filter === p.id;
+            const c = p.id === 'all' ? { solid: 'var(--accent)', tint: 'var(--soft)' } : PILLAR_COLOR[p.id as PillarId];
+            return (
+              <button key={p.id} aria-pressed={on} onClick={() => setFilter(p.id)} className="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-[14px] font-semibold transition" style={on ? { background: c.solid, color: '#fff' } : { background: c.tint, color: '#2A1A2E' }}>
+                {p.id !== 'all' && <PillarIcon pillar={p.id as PillarId} size={15} />}{p.short}
+              </button>
+            );
+          })}
         </div>
 
         <section className="mt-4 flex flex-col gap-2" aria-live="polite">
@@ -87,11 +94,12 @@ export function Rituals() {
           )}
           {list.map((r) =>
             view === 'library' ? (
-              <div key={r.id} className="flex items-center gap-3 rounded-[18px] border border-line bg-surface p-4">
+              <div key={r.id} className="flex items-center gap-3 rounded-[20px] bg-surface p-3.5 shadow-[0_10px_24px_-20px_rgba(42,26,46,.6)]">
+                <span className="grid size-12 shrink-0 place-items-center rounded-[16px]" style={{ background: PILLAR_COLOR[r.pillarId].tint, color: PILLAR_COLOR[r.pillarId].solid }}><PillarIcon pillar={r.pillarId} size={22} /></span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">{PILLARS.find((p) => p.id === r.pillarId)?.short}</p>
+                  <p className="text-[12px] font-semibold" style={{ color: PILLAR_COLOR[r.pillarId].text }}>{PILLARS.find((p) => p.id === r.pillarId)?.short}</p>
                   <p className="text-[16px] font-medium">{r.name}</p>
-                  <p className="text-[14px] text-muted">{r.sizes.full} · {r.sizes.small} · {r.sizes.tiny}</p>
+                  <p className="truncate text-[14px] text-muted">{r.sizes.full}, or {r.sizes.tiny.toLowerCase()}</p>
                 </div>
                 <Button variant="soft" className="min-h-10 px-3" onClick={() => { saveRitual({ ...r, selected: true }); toast(`${r.name} added`); }} aria-label={`Add ${r.name}`}><Plus size={18} /> Add</Button>
               </div>

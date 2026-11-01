@@ -30,7 +30,7 @@ export function Button({ variant = 'primary', full, className, children, ...rest
 }
 
 export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
-  return <p className={cx('text-[12px] font-medium tracking-[0.14em] text-muted uppercase', className)}>{children}</p>;
+  return <p className={cx('text-[14px] font-semibold text-accent-text', className)}>{children}</p>;
 }
 
 export function Card({ children, className }: { children: ReactNode; className?: string }) {
@@ -73,7 +73,7 @@ export function BottomNav({ path }: { path: string }) {
           {TABS.map(({ to, label, Icon }) => {
             const active = path.startsWith(to);
             return (
-              <Link key={to} to={to} className={cx('flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 rounded-[16px] text-[12px] font-medium transition', active ? 'bg-soft text-ink' : 'text-muted hover:text-ink')}>
+              <Link key={to} to={to} className={cx('flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 rounded-[16px] text-[12px] font-semibold transition', active ? 'bg-accent text-accent-ink shadow-[0_6px_16px_-8px_var(--accent)]' : 'text-muted hover:text-ink')}>
                 <span aria-hidden="true"><Icon size={21} /></span>
                 <span>{label}</span>
                 {active && <span className="sr-only">(current)</span>}
@@ -149,26 +149,40 @@ export function Confirm({ open, title, body, confirmLabel, onConfirm, onClose, d
   );
 }
 
+export const STATE_COLOR: Record<EnergyState, { solid: string; tint: string; hi: string }> = {
+  high: { solid: '#E6005C', tint: '#FFE1EC', hi: '#FFC93C' },
+  steady: { solid: '#2F6FD6', tint: '#DCEBFF', hi: '#6CC3FF' },
+  low: { solid: '#2F7D4F', tint: '#DDF3DF', hi: '#8FD694' },
+  rest: { solid: '#1F5E5B', tint: '#D6EAE6', hi: '#F2B8C0' },
+};
+
 export function EnergySelector({ value, onChange, compact }: { value?: EnergyState; onChange: (s: EnergyState) => void; compact?: boolean }) {
   const states: EnergyState[] = ['high', 'steady', 'low', 'rest'];
   return (
     <div role="radiogroup" aria-label="How are you showing up today?" className="grid grid-cols-4 gap-2">
       {states.map((s) => {
         const on = value === s;
+        const c = STATE_COLOR[s];
         return (
           <button
             key={s}
             role="radio"
             aria-checked={on}
             onClick={() => onChange(s)}
+            style={on ? { background: c.solid, color: '#fff', boxShadow: `0 10px 22px -10px ${c.solid}` } : { background: c.tint, color: '#2A1A2E' }}
             className={cx(
-              'group flex flex-col items-center justify-center gap-1.5 rounded-[16px] border px-1 text-center transition',
-              compact ? 'min-h-[72px] py-2' : 'min-h-[96px] py-3',
-              on ? 'border-transparent bg-accent text-accent-ink shadow-[0_8px_20px_-10px_var(--accent)]' : 'border-line bg-surface text-ink hover:border-accent',
+              'group relative flex flex-col items-center justify-center gap-1.5 overflow-hidden rounded-[18px] px-1 text-center transition active:scale-[.97]',
+              compact ? 'min-h-[76px] py-2' : 'min-h-[104px] py-3',
+              !on && value && 'opacity-80 hover:opacity-100',
             )}
           >
-            <span className={cx('transition', on && 'anim-pop')}><StateIcon state={s} size={compact ? 20 : 24} /></span>
-            <span className="text-[13px] leading-tight font-medium">{STATE_META[s].label}</span>
+            <span
+              className={cx('grid place-items-center rounded-full transition', compact ? 'size-8' : 'size-10', on && 'anim-pop')}
+              style={{ background: on ? 'rgba(255,255,255,.22)' : '#fff', color: on ? '#fff' : c.solid }}
+            >
+              <StateIcon state={s} size={compact ? 18 : 22} />
+            </span>
+            <span className="text-[13px] leading-tight font-semibold">{STATE_META[s].label}</span>
           </button>
         );
       })}
@@ -220,8 +234,8 @@ export function AudioPlayer({ src, duration, label }: { src?: string | null; dur
 export function Blobs() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[420px] overflow-hidden">
-      <div className="anim-drift absolute -top-24 -right-20 size-72 rounded-full bg-glow opacity-60 blur-3xl" />
-      <div className="anim-drift absolute top-24 -left-24 size-60 rounded-full bg-soft opacity-70 blur-3xl" style={{ animationDelay: '-6s' }} />
+      <div className="anim-drift absolute -top-24 -right-16 size-72 rounded-full bg-accent-3 opacity-45 blur-3xl" />
+      <div className="anim-drift absolute top-20 -left-24 size-64 rounded-full bg-glow opacity-70 blur-3xl" style={{ animationDelay: '-6s' }} />
     </div>
   );
 }

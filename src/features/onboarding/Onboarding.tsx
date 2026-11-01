@@ -59,7 +59,7 @@ export function Onboarding() {
         {step === 0 && (
           <>
             <div className="relative mx-auto mt-2 w-full max-w-[300px]">
-              <img src="images/overlook.jpg" alt="Nina on a lookout above the ocean" className="aspect-[4/5] w-full rounded-[28px] object-cover shadow-xl" />
+              <div className="polaroid rotate-[-3deg]"><img src="images/overlook.jpg" alt="Nina on a lookout above the ocean" className="aspect-[4/5] w-full rounded-[3px] object-cover" /></div>
               <span className="absolute -bottom-4 left-4 rotate-[-3deg] rounded-[12px] bg-surface px-3 py-1.5 font-hand text-[24px] text-accent-text shadow">hi friend!</span>
             </div>
             <h1 className="mt-10 font-serif text-[40px] leading-[1.05]">{NINA_INTRO.hello}<br />{NINA_INTRO.welcome}</h1>
@@ -120,7 +120,7 @@ export function Onboarding() {
             <div className="mt-6 space-y-6">
               {PILLARS.map((p) => (
                 <div key={p.id}>
-                  <p className="text-[12px] font-semibold tracking-[0.14em] text-muted uppercase">{p.name}</p>
+                  <p className="text-[12px] font-semibold text-muted">{p.name}</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {data.rituals.filter((r) => r.pillarId === p.id && !r.archived).map((r) => {
                       const on = picked.includes(r.id);

@@ -2,10 +2,13 @@ import { useMemo, useState } from 'react';
 import { useApp } from '../../lib/store';
 import { Link } from '../../lib/router';
 import { Eyebrow, Page, cx } from '../../components/ui';
+import { MomentBubbles, MomentLegend, useMoments } from '../../components/Moments';
 import { Mic, Pen, Wind, Heart, Search, Pin, Play, LifeBuoy } from '../../components/Icons';
 import { relativeDay, timeOf, addDays } from '../../lib/dates';
 import { GET_IT_OUT, NOTE_TO_ME, REFLECTION_PROMPTS, pick } from '../../content/nina';
 import type { Reflection } from '../../types';
+
+const STICKY = ['#FFF1C2', '#FFD6E6', '#DCEBFF', '#D9F2DD'];
 
 type Filter = 'all' | 'text' | 'voice' | 'guided';
 
@@ -18,8 +21,8 @@ function preview(r: Reflection) {
 export function ReflectionRow({ r }: { r: Reflection }) {
   const Icon = r.type === 'voice' ? Mic : r.type === 'guided' ? Wind : Pen;
   return (
-    <Link to={`/reflections/${r.id}`} className="flex gap-3 rounded-[18px] border border-line bg-surface p-4 hover:border-accent">
-      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-soft text-accent-text"><Icon size={18} /></span>
+    <Link to={`/reflections/${r.id}`} className="flex gap-3 rounded-[20px] bg-surface p-3.5 shadow-[0_10px_24px_-20px_rgba(42,26,46,.6)] transition hover:-translate-y-0.5">
+      <span className="grid size-11 shrink-0 place-items-center rounded-[14px] text-white" style={{ background: r.type === 'voice' ? '#E6005C' : r.type === 'guided' ? '#2F6FD6' : '#F05A1A' }}><Icon size={19} /></span>
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2 text-[12px] text-muted">
           {r.type === 'voice' ? 'Voice note' : r.type === 'guided' ? 'Get It Out' : 'Written'} · {timeOf(r.createdAt)}
@@ -60,8 +63,7 @@ export function Reflections() {
     return [...m.entries()];
   }, [filtered]);
 
-  const days = Array.from({ length: 21 }, (_, i) => addDays(today, i - 20));
-  const momentDays = days.filter((d) => data.completions.some((c) => c.date === d) || data.reflections.some((r) => r.createdAt.slice(0, 10) === d)).length;
+  const { showedUp } = useMoments(21);
 
   return (
     <Page>
@@ -72,16 +74,18 @@ export function Reflections() {
           <p className="mt-2 text-[15px] text-muted">Voice notes, quick writes and little notes to you. All on this device.</p>
         </header>
 
-        <section aria-label="Start a reflection" className="mt-6 grid grid-cols-2 gap-2">
+        <section aria-label="Start a reflection" className="mt-6 grid grid-cols-2 gap-2.5">
           {[
-            { to: '/reflections/new/voice', label: 'Voice note', sub: 'Say it out loud', Icon: Mic, big: true },
-            { to: '/reflections/new/write', label: 'Write something', sub: 'A line or a page', Icon: Pen, big: true },
-            { to: '/reflections/new/get-it-out', label: GET_IT_OUT.name, sub: 'Vent, then one small thing', Icon: Wind },
-            { to: '/reflections/new/note', label: NOTE_TO_ME.name, sub: 'Go easy on you', Icon: Heart },
-          ].map(({ to, label, sub, Icon, big }) => (
-            <Link key={to} to={to} className={cx('flex flex-col justify-between rounded-[20px] border p-4 transition hover:border-accent', big ? 'min-h-[120px] border-transparent bg-soft/80' : 'min-h-[112px] border-line bg-surface')}>
-              <Icon size={22} className="text-accent-text" />
-              <span><span className="block text-[16px] font-medium leading-tight">{label}</span><span className="block text-[13px] text-muted">{sub}</span></span>
+            { to: '/reflections/new/voice', label: 'Voice note', sub: 'Say it out loud', Icon: Mic, bg: '#E6005C', fg: '#fff', tilt: '-rotate-1' },
+            { to: '/reflections/new/write', label: 'Write something', sub: 'A line or a page', Icon: Pen, bg: '#FFC93C', fg: '#3A2A12', tilt: 'rotate-1' },
+            { to: '/reflections/new/get-it-out', label: GET_IT_OUT.name, sub: 'Vent, then one small thing', Icon: Wind, bg: '#2F6FD6', fg: '#fff', tilt: 'rotate-[.6deg]' },
+            { to: '/reflections/new/note', label: NOTE_TO_ME.name, sub: 'Go easy on you', Icon: Heart, bg: '#2F7D4F', fg: '#fff', tilt: '-rotate-[.6deg]' },
+          ].map(({ to, label, sub, Icon, bg, fg, tilt }) => (
+            <Link key={to} to={to} className={cx('block rounded-[22px] transition hover:rotate-0 hover:-translate-y-0.5 active:scale-[.98]', tilt)}>
+              <span className="flex min-h-[128px] flex-col justify-between rounded-[22px] p-4 shadow-[0_14px_26px_-18px_rgba(42,26,46,.6)]" style={{ background: bg, color: fg }}>
+                <span className="grid size-10 place-items-center rounded-full" style={{ background: fg === '#fff' ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.6)' }}><Icon size={20} /></span>
+                <span><span className="block font-serif text-[18px] leading-tight">{label}</span><span className="block text-[13px] opacity-85">{sub}</span></span>
+              </span>
             </Link>
           ))}
         </section>
@@ -92,21 +96,16 @@ export function Reflections() {
         </Link>
 
         {prefs.littleMoments && (
-          <section aria-label="Little moments, last three weeks" className="mt-8">
-            <div className="flex items-baseline justify-between">
-              <h2 className="font-serif text-[22px]">Little moments</h2>
-              <span className="text-[13px] text-muted">{momentDays} days you did something for you</span>
+          <section aria-labelledby="lm-h" className="mt-8 overflow-hidden rounded-[26px] bg-surface p-5 shadow-[0_16px_34px_-26px_rgba(42,26,46,.55)]">
+            <div className="flex items-start gap-4">
+              <div className="grid size-16 shrink-0 rotate-[-6deg] place-items-center rounded-[18px] bg-accent font-serif text-[30px] text-accent-ink shadow-[0_10px_20px_-10px_var(--accent)]">{showedUp}</div>
+              <div>
+                <h2 id="lm-h" className="font-serif text-[19px] leading-tight">days you showed up for you</h2>
+                <p className="text-[14px] text-muted">in the last three weeks. Rest days count too.</p>
+              </div>
             </div>
-            <div className="mt-3 grid grid-cols-7 gap-1.5">
-              {days.map((d) => {
-                const n = data.completions.filter((c) => c.date === d).length + data.reflections.filter((r) => r.createdAt.slice(0, 10) === d).length;
-                const rest = data.checkins[d]?.state === 'rest';
-                return (
-                  <div key={d} title={`${relativeDay(d, today)}${n ? ` · ${n} moments` : rest ? ' · rest day' : ''}`} className={cx('aspect-square rounded-[10px]', n >= 4 ? 'bg-accent' : n >= 2 ? 'bg-accent/60' : n === 1 ? 'bg-accent/30' : rest ? 'bg-soft' : 'bg-line/50', d === today && 'ring-2 ring-accent/40 ring-offset-2 ring-offset-bg')} />
-                );
-              })}
-            </div>
-            <p className="mt-2 text-[12px] text-muted">Pale squares aren’t misses. They’re just days. Rest days get their own colour.</p>
+            <div className="mt-5"><MomentBubbles days={21} /></div>
+            <div className="mt-4"><MomentLegend /></div>
           </section>
         )}
 
@@ -114,8 +113,8 @@ export function Reflections() {
           <section aria-labelledby="notes-h" className="mt-8">
             <h2 id="notes-h" className="font-serif text-[22px]">Notes to me</h2>
             <div className="no-scrollbar -mx-5 mt-3 flex gap-3 overflow-x-auto px-5 pb-1">
-              {[...pinnedNotes, ...otherNotes].map((n) => (
-                <Link key={n.id} to={`/reflections/note/${n.id}`} className="paper relative w-[240px] shrink-0 rotate-[-.6deg] rounded-[18px] bg-[#FFF8E8] p-4 text-[#3A302B] shadow-[0_8px_20px_-14px_rgba(0,0,0,.4)] odd:rotate-[.8deg]">
+              {[...pinnedNotes, ...otherNotes].map((n, i) => (
+                <Link key={n.id} to={`/reflections/note/${n.id}`} className="paper relative w-[230px] shrink-0 rotate-[-1.5deg] rounded-[6px] p-4 pt-5 text-[#2A1A2E] shadow-[0_14px_24px_-16px_rgba(0,0,0,.45)] odd:rotate-[1.5deg]" style={{ background: STICKY[i % STICKY.length] }}>
                   {n.pinned && <Pin size={15} className="absolute top-3 right-3 text-[#C4004E]" aria-label="Pinned" />}
                   <p className="font-hand text-[22px] leading-snug">“{n.forward || n.friendSays}”</p>
                   <p className="mt-2 text-[12px] opacity-70">{relativeDay(n.createdAt.slice(0, 10), today)}</p>
@@ -149,7 +148,7 @@ export function Reflections() {
             <div className="mt-4 space-y-6">
               {groups.map(([day, items]) => (
                 <div key={day}>
-                  <p className="mb-2 text-[12px] font-semibold tracking-[0.14em] text-muted uppercase">{relativeDay(day, today)}</p>
+                  <p className="mb-2 text-[12px] font-semibold text-muted">{relativeDay(day, today)}</p>
                   <div className="flex flex-col gap-2">{items.map((r) => <ReflectionRow key={r.id} r={r} />)}</div>
                 </div>
               ))}
