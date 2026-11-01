@@ -1,0 +1,10 @@
+{
+  "name": "My Friend Nina",
+  "short_name": "Nina",
+  "description": "A little space to check in, find your rhythm, and take care of yourself.",
+  "start_url": "./#/today",
+  "display": "standalone",
+  "background_color": "#F9F4EE",
+  "theme_color": "#F9F4EE",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

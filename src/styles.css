@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   My Friend Nina — design tokens
+   West Coast Studio is the foundation. Each energy state re-points the
+   semantic tokens; Rest swaps the whole UI into Coastal Calm.
+   Contrast notes (WCAG 2.2 AA):
+   - White on Hot Pink #E6005C = 4.65:1 → OK for button labels.
+   - Hot Pink as small text on Warm Oat fails, so text uses --accent-text (#C4004E, 5.5:1).
+   - Coastal Sage #789080 is decorative only; Rest text uses Deep Teal.
+------------------------------------------------------------------- */
+
+@theme inline {
+  --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-hand: "Caveat", "Bradley Hand", cursive;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
+  --color-soft: var(--soft);
+  --color-line: var(--line);
+  --color-glow: var(--glow);
+
+  /* fixed brand swatches (landing page, previews) */
+  --color-oat: #F9F4EE;
+  --color-studio: #FFFFFF;
+  --color-pink: #E6005C;
+  --color-pink-deep: #C4004E;
+  --color-blush: #F3DCE5;
+  --color-sage: #A3B18A;
+  --color-espresso: #2B2625;
+  --color-sand: #F3EFE5;
+  --color-cream: #FAF8F2;
+  --color-rose: #DDA8A9;
+  --color-eucalyptus: #D8DFD2;
+  --color-coastal: #789080;
+  --color-teal: #293B3B;
+
+  --radius-control: 10px;
+  --radius-button: 14px;
+  --radius-card: 18px;
+  --radius-panel: 24px;
+  --radius-sheet: 28px;
+
+  --ease-exhale: cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+:root,
+[data-mood="high"] {
+  --bg: #F9F4EE;
+  --surface: #FFFFFF;
+  --ink: #2B2625;
+  --muted: #6E6761;
+  --accent: #E6005C;
+  --accent-ink: #FFFFFF;
+  --accent-text: #C4004E;
+  --soft: #F3DCE5;
+  --line: #E8E0D8;
+  --glow: #F7C6D9;
+}
+
+[data-mood="steady"] {
+  --bg: #F5F0E7;
+  --surface: #FFFDF9;
+  --ink: #3A302B;
+  --muted: #6A5F57;
+  --accent: #8C6A57;
+  --accent-ink: #FFFFFF;
+  --accent-text: #7A5B4A;
+  --soft: #F3DCE5;
+  --line: #E6DDD1;
+  --glow: #EBD8CC;
+}
+
+[data-mood="low"] {
+  --bg: #EDF1E8;
+  --surface: #FAFBF7;
+  --ink: #2F3F35;
+  --muted: #56645A;
+  --accent: #4F6A59;
+  --accent-ink: #FFFFFF;
+  --accent-text: #46604F;
+  --soft: #DCE5D3;
+  --line: #D8DFD0;
+  --glow: #C9D6BD;
+}
+
+[data-mood="rest"] {
+  --bg: #F3EFE5;
+  --surface: #FAF8F2;
+  --ink: #293B3B;
+  --muted: #56645F;
+  --accent: #33504C;
+  --accent-ink: #FFFFFF;
+  --accent-text: #33504C;
+  --soft: #D8DFD2;
+  --line: #E2DDD0;
+  --glow: #EBCFCF;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 550ms var(--ease-exhale), color 550ms var(--ease-exhale);
+}
+
+.mood-surface,
+.mood-surface * {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 450ms;
+  transition-timing-function: var(--ease-exhale);
+}
+
+::selection {
+  background: var(--soft);
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.font-serif {
+  letter-spacing: -0.01em;
+}
+
+/* subtle paper grain for editorial surfaces */
+.paper {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.2  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+@keyframes pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(14px, -10px) scale(1.04); }
+}
+@keyframes pulse-rec {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(230, 0, 92, 0.35); }
+  50% { box-shadow: 0 0 0 14px rgba(230, 0, 92, 0); }
+}
+@keyframes wave-shift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.anim-rise { animation: rise 380ms var(--ease-exhale) both; }
+.anim-fade { animation: fade 300ms ease both; }
+.anim-sheet { animation: sheet-up 320ms var(--ease-exhale) both; }
+.anim-pop { animation: pop 320ms var(--ease-exhale) both; }
+.anim-drift { animation: drift 14s ease-in-out infinite; }
+.anim-rec { animation: pulse-rec 1.6s ease-out infinite; }
+.anim-waves { animation: wave-shift 18s linear infinite; }
+
+[data-mood="high"] .anim-drift { animation-duration: 9s; }
+[data-mood="rest"] .anim-drift { animation-duration: 24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}

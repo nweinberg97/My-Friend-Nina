@@ -1,0 +1,21 @@
+{
+  "name": "my-friend-nina",
+  "private": true,
+  "version": "0.1.0",
+  "description": "My Friend Nina — a creator-led daily companion. Mobile-first interactive prototype.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.mjs --watch",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/build.mjs --serve"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.6.0"
+  }
+}
