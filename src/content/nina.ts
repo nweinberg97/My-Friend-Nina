@@ -169,3 +169,16 @@ export function encouragementFor(state: EnergyState, date: string) {
   const pool = ENCOURAGEMENTS.filter((e) => e.states.includes(state));
   return pick(pool, date + ':enc:' + state);
 }
+
+// "Little reminders from Nina": the underlying insights, gathered into one
+// browsable collection. Titles and copy are Nina's words. [DRAFT — NINA TO APPROVE]
+export const REMINDERS: { theme: string; title: string; body: string; tint: string; ink: string }[] = [
+  { theme: 'learning', title: 'Not yet isn’t never', body: 'Being bad at something is just the beginning part. Everyone has one. You’ll figure it out, give it time.', tint: '#F3DCE5', ink: '#7A1F45' },
+  { theme: 'notice', title: 'Notice the little stuff', body: 'Hot shower, good song, the sun on the water. You’ve got more going for you than your brain admits.', tint: '#FFF1C2', ink: '#6B4A00' },
+  { theme: 'hope', title: 'Hope, plus one small step', body: 'Admit it’s messy. Don’t move in there. Then pick one tiny thing you can actually do.', tint: '#DFEBD6', ink: '#2F4A33' },
+  { theme: 'curious', title: 'Curious, not critical', body: 'Swap “what’s wrong with me” for “huh, what’s going on here?” Notice where you feel it. No fixing required.', tint: '#DCEBFF', ink: '#1E3F75' },
+  { theme: 'present', title: 'Phone down, eyes up', body: 'Slow down for a second. What can you hear? Who’s in front of you? That’s the whole exercise.', tint: '#FFE3D3', ink: '#7A3410' },
+  { theme: 'grace', title: 'Maybe they’re having a day too', body: 'Not every weird interaction needs an investigation. Grudges are heavy. Put that backpack down.', tint: '#E9E0F5', ink: '#43306B' },
+  { theme: 'kind', title: 'Talk to yourself like your best friend would', body: 'You’d never speak to her like that. So let’s retire that particular voice in your head.', tint: '#F7D6D6', ink: '#7A2A2A' },
+  { theme: 'room', title: 'There’s room for you', body: 'You don’t have to beat anyone to get your turn. When something ends, it makes space. Enough can be enough.', tint: '#D8DFD2', ink: '#2F4A40' },
+];

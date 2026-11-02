@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
+import { Sheet, NinaSig } from '../../components/ui';
 import { useApp } from '../../lib/store';
 import { Link } from '../../lib/router';
 import { Eyebrow, Page, cx } from '../../components/ui';
 import { Mic, Pen, Wind, Heart, Search, Pin, Play, LifeBuoy } from '../../components/Icons';
 import { relativeDay, timeOf, addDays } from '../../lib/dates';
-import { GET_IT_OUT, NOTE_TO_ME, REFLECTION_PROMPTS, pick } from '../../content/nina';
+import { GET_IT_OUT, NOTE_TO_ME, REFLECTION_PROMPTS, REMINDERS, ENCOURAGEMENTS, pick } from '../../content/nina';
 import type { Reflection } from '../../types';
 
 type Filter = 'all' | 'text' | 'voice' | 'guided';
@@ -41,6 +42,7 @@ export function Reflections() {
   const pinnedNotes = data.notes.filter((n) => n.pinned);
   const otherNotes = data.notes.filter((n) => !n.pinned);
   const prompt = pick(REFLECTION_PROMPTS, today + 'prompt');
+  const [reminder, setReminder] = useState<number | null>(null);
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -90,6 +92,21 @@ export function Reflections() {
           <span className="text-[12px] text-muted">Today’s prompt, if you want one</span>
           <span className="block font-hand text-[24px] leading-tight">{prompt}</span>
         </Link>
+
+        <section aria-labelledby="rem-h" className="mt-8">
+          <div className="flex items-baseline justify-between">
+            <h2 id="rem-h" className="font-serif text-[22px]">Little reminders from Nina</h2>
+            <span className="text-[13px] text-muted">for when you need one</span>
+          </div>
+          <div className="no-scrollbar -mx-5 mt-3 flex snap-x gap-3 overflow-x-auto px-5 pb-2">
+            {REMINDERS.map((r, i) => (
+              <button key={r.theme} onClick={() => setReminder(i)} className="paper flex h-[178px] w-[200px] shrink-0 snap-start flex-col justify-between rounded-[20px] p-4 text-left transition hover:-translate-y-0.5" style={{ background: r.tint, color: r.ink }}>
+                <span className="font-serif text-[22px] leading-[1.1]">{r.title}</span>
+                <span className="line-clamp-2 text-[13px] leading-snug opacity-80">{r.body}</span>
+              </button>
+            ))}
+          </div>
+        </section>
 
         {prefs.littleMoments && (
           <section aria-label="Little moments, last three weeks" className="mt-8">
@@ -159,6 +176,31 @@ export function Reflections() {
 
         <Link to="/support" className="mt-10 mb-2 flex items-center justify-center gap-2 text-[13px] text-muted hover:text-ink"><LifeBuoy size={15} /> Need more support?</Link>
       </div>
+      <Sheet open={reminder !== null} onClose={() => setReminder(null)} title="A little reminder">
+        {reminder !== null && (() => {
+          const r = REMINDERS[reminder];
+          const more = ENCOURAGEMENTS.filter((e) => e.theme === r.theme);
+          return (
+            <div className="pt-2">
+              <div className="paper rounded-[22px] p-6" style={{ background: r.tint, color: r.ink }}>
+                <p className="font-serif text-[32px] leading-[1.08]">{r.title}</p>
+                <p className="mt-3 text-[17px] leading-relaxed">{r.body}</p>
+                <p className="mt-3 text-right font-hand text-[24px]">— Nina</p>
+              </div>
+              {more.length > 0 && (
+                <div className="mt-5 space-y-3">
+                  <p className="text-[13px] text-muted">You might also see these on Today:</p>
+                  {more.map((m) => <p key={m.id} className="rounded-[14px] bg-soft/60 px-4 py-3 font-hand text-[21px] leading-snug">“{m.body}”</p>)}
+                </div>
+              )}
+              <div className="mt-6 flex gap-2">
+                <Link to="/reflections/new/write" className="flex min-h-12 flex-1 items-center justify-center rounded-[14px] bg-accent text-[15px] font-medium text-accent-ink">Write about it</Link>
+                <button onClick={() => setReminder((reminder + 1) % REMINDERS.length)} className="min-h-12 flex-1 rounded-[14px] border border-line text-[15px]">Next reminder</button>
+              </div>
+            </div>
+          );
+        })()}
+      </Sheet>
     </Page>
   );
 }

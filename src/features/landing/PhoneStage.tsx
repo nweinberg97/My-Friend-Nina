@@ -15,9 +15,16 @@ const NOTIFICATIONS = [
   { when: 'now', body: 'Low battery kind of day? Tiny counts. One glass of water, done.', to: '/rituals' },
   { when: 'now', body: 'Long day? Want to get it out? I’m listening.', to: '/reflections/new/get-it-out' },
   { when: 'now', body: 'Friendly reminder: rest days count too. No catch-up homework.', to: '/today' },
+  { when: 'now', body: 'Evening check-in. How did today treat you? No wrong answers.', to: '/today' },
 ];
 
-type Perm = 'pending' | 'asking' | 'allowed' | 'denied';
+type Perm = 'pending' | 'soft' | 'when' | 'asking' | 'confirmed' | 'allowed' | 'later' | 'denied';
+
+const WHEN = [
+  { id: 'morning', label: 'Mornings, around 9', confirm: 'I’ll say hi around 9am.' },
+  { id: 'evening', label: 'Evenings, around 8', confirm: 'I’ll check in around 8pm.' },
+  { id: 'low', label: 'Only on low battery days', confirm: 'I’ll only pop up on low battery days.' },
+];
 
 export function PhoneStage() {
   const { prefs, loadDemo } = useApp();
@@ -27,6 +34,7 @@ export function PhoneStage() {
   const [src, setSrc] = useState(() => `./?embed=1#${prefs.onboarded ? '/today' : '/welcome'}`);
   const [perm, setPerm] = useState<Perm>('pending');
   const [banner, setBanner] = useState<number | null>(null);
+  const [when, setWhen] = useState(0);
   const [time, setTime] = useState(() => new Date());
   const inFrame = typeof window !== 'undefined' && window.self !== window.top;
 
@@ -48,7 +56,7 @@ export function PhoneStage() {
     if (perm !== 'pending' || !wrap.current) return;
     let timer: number | undefined;
     const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !timer) timer = window.setTimeout(() => setPerm('asking'), 3500);
+      if (e.isIntersecting && !timer) timer = window.setTimeout(() => setPerm('soft'), 4000);
     }, { threshold: 0.6 });
     io.observe(wrap.current);
     return () => { io.disconnect(); if (timer) clearTimeout(timer); };
@@ -56,17 +64,23 @@ export function PhoneStage() {
 
   // Once allowed, a new banner from Nina every so often.
   useEffect(() => {
+    if (perm !== 'confirmed') return;
+    const t = window.setTimeout(() => setPerm('allowed'), 2600);
+    return () => clearTimeout(t);
+  }, [perm]);
+
+  useEffect(() => {
     if (perm !== 'allowed') return;
-    let i = 0;
+    let i = when === 1 ? 4 : when === 2 ? 1 : 0;
     const show = () => {
       setBanner(i % NOTIFICATIONS.length);
       i++;
       window.setTimeout(() => setBanner(null), 6000);
     };
-    const first = window.setTimeout(show, 1200);
-    const loop = window.setInterval(show, 11000);
+    const first = window.setTimeout(show, 1500);
+    const loop = window.setInterval(show, 14000);
     return () => { clearTimeout(first); clearInterval(loop); };
-  }, [perm]);
+  }, [perm, when]);
 
   const go = (to: string) => {
     const w = frame.current?.contentWindow;
@@ -117,17 +131,55 @@ export function PhoneStage() {
               </button>
             )}
 
-            {/* iOS permission alert */}
+            {/* Step 1: Nina asks first, in her own voice (soft pre-permission) */}
+            {(perm === 'soft' || perm === 'when' || perm === 'confirmed') && (
+              <div className="anim-fade absolute inset-0 flex items-end bg-[#2B2625]/25">
+                <div className="anim-sheet w-full rounded-t-[30px] bg-[#FFFDF9] px-6 pt-4 pb-10 text-[#2B2625] shadow-[0_-10px_40px_-10px_rgba(0,0,0,.25)]">
+                  <span className="mx-auto mb-4 block h-1.5 w-10 rounded-full bg-[#E8E0D8]" />
+                  {perm === 'soft' && (
+                    <>
+                      <div className="flex items-center gap-3"><img src="images/nina-avatar.jpg" alt="" className="size-11 rounded-full object-cover" /><p className="font-hand text-[24px] text-[#C4004E]">quick question</p></div>
+                      <p className="mt-3 font-serif text-[27px] leading-[1.12]">Want a little nudge from me now and then?</p>
+                      <p className="mt-2 text-[15px] leading-relaxed text-[#6E6761]">One gentle check-in a day, max. No guilt trips, no “you missed yesterday.” Ever.</p>
+                      <div className="mt-5 flex flex-col gap-2">
+                        <button onClick={() => setPerm('when')} className="min-h-12 rounded-[14px] bg-[#E6005C] text-[16px] font-medium text-white">Yes please</button>
+                        <button onClick={() => setPerm('later')} className="min-h-12 rounded-[14px] text-[16px] text-[#C4004E]">Not right now</button>
+                      </div>
+                    </>
+                  )}
+                  {perm === 'when' && (
+                    <>
+                      <p className="font-serif text-[27px] leading-[1.12]">When’s good for you?</p>
+                      <p className="mt-1 text-[15px] text-[#6E6761]">You can change this anytime in Settings.</p>
+                      <div className="mt-4 flex flex-col gap-2">
+                        {WHEN.map((w, i) => (
+                          <button key={w.id} onClick={() => { setWhen(i); setPerm('asking'); }} className="min-h-12 rounded-[14px] border border-[#E8E0D8] bg-white px-4 text-left text-[16px] hover:border-[#E6005C]">{w.label}</button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  {perm === 'confirmed' && (
+                    <div className="anim-pop text-center">
+                      <p className="font-serif text-[27px] leading-[1.12]">Done. {WHEN[when].confirm}</p>
+                      <p className="mt-2 text-[15px] text-[#6E6761]">Never more than once a day. Ignore me anytime, I won’t take it personally.</p>
+                      <p className="mt-2 font-hand text-[24px] text-[#C4004E]">— Nina</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: only then, the real iOS permission alert */}
             {perm === 'asking' && (
               <div className="anim-fade absolute inset-0 grid place-items-center bg-black/30 px-10">
                 <div className="anim-pop w-[270px] overflow-hidden rounded-[14px] bg-[#f2f2f2]/95 text-center backdrop-blur-xl" role="alertdialog" aria-label="Notification permission">
                   <div className="px-4 pt-5 pb-4">
                     <p className="text-[17px] leading-tight font-semibold text-[#111]">“My Friend Nina” Would Like to Send You Notifications</p>
-                    <p className="mt-1.5 text-[13px] leading-snug text-[#333]">Gentle check-ins from Nina, never guilt trips. You can change this in Settings.</p>
+                    <p className="mt-1.5 text-[13px] leading-snug text-[#333]">Notifications may include alerts, sounds and icon badges. These can be configured in Settings.</p>
                   </div>
                   <div className="grid grid-cols-2 border-t border-black/15 text-[17px]">
                     <button onClick={() => setPerm('denied')} className="min-h-11 border-r border-black/15 text-[#0a7aff]">Don’t Allow</button>
-                    <button onClick={() => setPerm('allowed')} className="min-h-11 font-semibold text-[#0a7aff]">Allow</button>
+                    <button onClick={() => setPerm('confirmed')} className="min-h-11 font-semibold text-[#0a7aff]">Allow</button>
                   </div>
                 </div>
               </div>
@@ -142,10 +194,10 @@ export function PhoneStage() {
       <div className="flex flex-wrap justify-center gap-2 text-[14px]">
         <button onClick={() => restart('/welcome')} className="min-h-11 rounded-full border border-[#E8E0D8] bg-white px-4 hover:border-pink">Start from welcome</button>
         <button onClick={async () => { await loadDemo(); restart('/today'); }} className="min-h-11 rounded-full border border-[#E8E0D8] bg-white px-4 hover:border-pink">Load sample data</button>
-        <button onClick={() => { setBanner(null); setPerm('asking'); }} className={cx('min-h-11 rounded-full px-4 text-white', 'bg-pink hover:bg-pink-deep')}>Show notification prompt</button>
+        <button onClick={() => { setBanner(null); setPerm('soft'); }} className={cx('min-h-11 rounded-full px-4 text-white', 'bg-pink hover:bg-pink-deep')}>Replay notification flow</button>
       </div>
       <p className="max-w-sm text-center text-[13px] text-[#6E6761]">
-        {perm === 'denied' ? 'No notifications, no problem. Nina’s still here whenever you open the app.' : 'Tap around, it’s the real prototype. Notifications are simulated here; on iPhone, real ones need the app added to your Home Screen.'}
+        {perm === 'denied' || perm === 'later' ? 'No notifications, no problem. Nina’s still here whenever you open the app, and you can turn nudges on later in Settings.' : 'Tap around, it’s the real prototype. Notifications are simulated here; on iPhone, real ones need the app added to your Home Screen.'}
       </p>
     </div>
   );
