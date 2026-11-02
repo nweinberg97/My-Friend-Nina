@@ -152,6 +152,24 @@ body {
 }
 
 .is-embedded .safe-top { padding-top: 46px; }
+
+/* Status-bar safe area: content scrolls under a soft frosted strip instead of
+   colliding with the clock and battery (installed app and the landing phone). */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: env(safe-area-inset-top, 0px);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  z-index: 35;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(#000 72%, transparent);
+  mask-image: linear-gradient(#000 72%, transparent);
+  transition: background-color 550ms var(--ease-exhale);
+}
+.is-embedded body::before { height: 46px; }
 .is-embedded .safe-bottom { padding-bottom: 18px; }
 
 .safe-bottom {

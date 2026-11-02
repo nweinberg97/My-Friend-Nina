@@ -103,10 +103,8 @@ export function Reflections() {
         </Link>
 
         <section aria-labelledby="rem-h" className="mt-8">
-          <div className="flex items-baseline justify-between">
-            <h2 id="rem-h" className="font-serif text-[22px]">Little reminders from Nina</h2>
-            <span className="text-[13px] text-muted">for when you need one</span>
-          </div>
+          <h2 id="rem-h" className="font-serif text-[22px] leading-tight">Little reminders from Nina</h2>
+          <p className="mt-0.5 text-[13px] text-muted">For when you need one. Tap to read.</p>
           <div className="no-scrollbar -mx-5 mt-3 flex snap-x gap-3 overflow-x-auto px-5 pb-2">
             {REMINDERS.map((r, i) => (
               <button key={r.theme} onClick={() => setReminder(i)} className="paper flex h-[178px] w-[200px] shrink-0 snap-start flex-col justify-between rounded-[20px] p-4 text-left transition hover:-translate-y-0.5" style={{ background: r.tint, color: r.ink }}>
@@ -119,10 +117,8 @@ export function Reflections() {
 
         {prefs.littleMoments && (
           <section aria-label="Little moments, last three weeks" className="mt-8">
-            <div className="flex items-baseline justify-between">
-              <h2 className="font-serif text-[22px]">Little moments</h2>
-              <span className="text-[13px] text-muted">{momentDays} days you did something for you</span>
-            </div>
+            <h2 className="font-serif text-[22px] leading-tight">Little moments</h2>
+            <p className="mt-0.5 text-[13px] text-muted">{momentDays} days you did something for you</p>
             <div className="mt-3 grid grid-cols-7 gap-1.5">
               {days.map((d) => {
                 const n = data.completions.filter((c) => c.date === d).length + data.reflections.filter((r) => r.createdAt.slice(0, 10) === d).length;
