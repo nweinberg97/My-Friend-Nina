@@ -289,3 +289,13 @@ body::before {
   -webkit-mask-image: linear-gradient(to top, #000 60%, transparent);
   mask-image: linear-gradient(to top, #000 60%, transparent);
 }
+
+/* Opening screen */
+.splash { background: radial-gradient(120% 80% at 50% 0%, #FF7AAE 0%, #F0236F 45%, #C4004E 100%); }
+.splash-mark { animation: splash-mark 900ms cubic-bezier(.2,.9,.25,1.05) both; }
+.splash-word { animation: rise 700ms 220ms var(--ease-exhale) both; }
+.splash-tag { animation: fade 700ms 420ms ease both; }
+.splash-glow { animation: drift 10s ease-in-out infinite; }
+.splash-out { animation: splash-out 450ms var(--ease-exhale) both; }
+@keyframes splash-mark { from { opacity: 0; transform: scale(.7) rotate(-8deg); } to { opacity: 1; transform: none; } }
+@keyframes splash-out { to { opacity: 0; transform: scale(1.04); } }

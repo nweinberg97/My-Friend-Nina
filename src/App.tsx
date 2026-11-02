@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useApp } from './lib/store';
 import { navigate, useRoute } from './lib/router';
 import { BottomNav, Button, Toasts } from './components/ui';
@@ -9,6 +9,7 @@ import { Rituals } from './features/rituals/Rituals';
 import { Reflections } from './features/reflections/Reflections';
 import { GetItOut, NewVoice, NewWrite, NoteDetail, NoteFlow, ReflectionDetail } from './features/reflections/Flows';
 import { About, Privacy, Settings, Support } from './features/settings/Settings';
+import { Splash } from './features/splash/Splash';
 
 const APP_ROUTES = ['/today', '/rituals', '/reflections', '/settings'];
 
@@ -37,13 +38,25 @@ export function App() {
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, [path]);
 
+  // Opening screen: a short branded moment when the app (not the landing page) opens.
+  const [splash, setSplash] = useState<'on' | 'leaving' | 'off'>(() => {
+    const h = window.location.hash.replace('#', '') || '/';
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    return !reduce && h !== '/' && !h.startsWith('/splash') && !h.startsWith('/about') && !h.startsWith('/privacy') && !h.startsWith('/support') ? 'on' : 'off';
+  });
+  useEffect(() => {
+    if (splash === 'off') return;
+    const t = window.setTimeout(() => setSplash(splash === 'on' ? 'leaving' : 'off'), splash === 'on' ? 1600 : 450);
+    return () => clearTimeout(t);
+  }, [splash]);
+
   // New users who deep-link into the app go through onboarding first.
   useEffect(() => {
     if (status === 'ready' && !prefs.onboarded && APP_ROUTES.some((r) => path.startsWith(r)) && !path.startsWith('/settings')) navigate('/welcome', { replace: true });
   }, [status, prefs.onboarded, path]);
 
   if (status === 'loading') {
-    return <div className="grid min-h-dvh place-items-center"><p className="font-serif text-[22px] italic text-muted">one sec…</p></div>;
+    return splash !== 'off' ? <Splash /> : <div className="grid min-h-dvh place-items-center"><p className="font-serif text-[22px] italic text-muted">one sec…</p></div>;
   }
   if (status === 'error') {
     return (
@@ -65,6 +78,7 @@ export function App() {
   const m = (re: RegExp) => path.match(re);
   if (isLanding && embedded) return null;
   if (isLanding) page = <Landing />;
+  else if (path === '/splash') page = <Splash />;
   else if (path === '/welcome') page = <Onboarding />;
   else if (path === '/today') { page = <Today />; tabs = true; }
   else if (path === '/rituals') { page = <Rituals />; tabs = true; }
@@ -87,6 +101,7 @@ export function App() {
       {page}
       {tabs && <BottomNav path={path} />}
       {!isLanding && <Toasts />}
+      {splash !== 'off' && path !== '/splash' && <Splash leaving={splash === 'leaving'} />}
     </>
   );
 }
