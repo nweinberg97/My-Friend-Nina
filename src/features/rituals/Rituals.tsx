@@ -37,17 +37,17 @@ export function Rituals() {
         {/* Nina's picks */}
         <section aria-labelledby="picks-h" className="mt-7">
           <h2 id="picks-h" className="font-serif text-[22px]">Nina’s picks</h2>
-          <div className="no-scrollbar -mx-5 mt-3 flex snap-x gap-3 overflow-x-auto px-5 pb-2">
+          <div className="mt-3 grid grid-cols-2 gap-3">
             {NINA_PICKS.map((p) => {
               const r = data.rituals.find((x) => x.id === p.ritualId);
               if (!r) return null;
               return (
-                <button key={p.ritualId} onClick={() => setOpen(r)} className="group relative h-[230px] w-[190px] shrink-0 snap-start overflow-hidden rounded-[22px] text-left">
+                <button key={p.ritualId} onClick={() => setOpen(r)} className="group relative aspect-[4/5] w-full overflow-hidden rounded-[20px] text-left">
                   <img src={p.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-3.5 text-white">
-                    <p className="font-serif text-[20px] leading-tight">{p.title}</p>
-                    <p className="mt-1 text-[12.5px] leading-snug text-white/90">{p.note}</p>
+                    <p className="font-serif text-[18px] leading-tight">{p.title}</p>
+                    <p className="mt-1 line-clamp-2 text-[12px] leading-snug text-white/90">{p.note}</p>
                   </div>
                   {r.selected && <span className="absolute top-3 right-3 grid size-7 place-items-center rounded-full bg-white/90 text-[#2A1E2C]" aria-label="In your rituals"><Check size={15} /></span>}
                 </button>
@@ -64,9 +64,9 @@ export function Rituals() {
         </div>
 
         {/* pillar filter */}
-        <div className="no-scrollbar -mx-5 mt-3 flex gap-2 overflow-x-auto px-5">
+        <div className="mt-3 flex flex-wrap gap-2">
           {[{ id: 'all' as const, short: 'All' }, ...PILLARS].map((p) => (
-            <button key={p.id} aria-pressed={filter === p.id} onClick={() => setFilter(p.id)} className={cx('min-h-10 shrink-0 rounded-full border px-4 text-[14px]', filter === p.id ? 'border-accent bg-accent text-accent-ink' : 'border-line bg-surface')}>{p.short}</button>
+            <button key={p.id} aria-pressed={filter === p.id} onClick={() => setFilter(p.id)} className={cx('min-h-9 shrink-0 rounded-full border px-3.5 text-[13px]', filter === p.id ? 'border-accent bg-accent text-accent-ink' : 'border-line bg-surface')}>{p.short}</button>
           ))}
         </div>
 
