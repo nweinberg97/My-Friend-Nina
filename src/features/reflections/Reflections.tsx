@@ -106,9 +106,9 @@ export function Reflections() {
         <section aria-labelledby="rem-h" className="mt-8">
           <h2 id="rem-h" className="font-serif text-[22px] leading-tight">Little reminders from Nina</h2>
           <p className="mt-0.5 text-[13px] text-muted">For when you need one. Tap to read.</p>
-          <div className="no-scrollbar -mx-5 mt-3 flex snap-x gap-3 overflow-x-auto px-5 pb-2">
+          <div className="no-scrollbar -mx-5 mt-2 flex snap-x gap-4 overflow-x-auto px-5 pt-4 pb-4">
             {REMINDERS.map((r, i) => (
-              <button key={r.theme} onClick={() => setReminder(i)} className="paper flex h-[178px] w-[200px] shrink-0 snap-start flex-col justify-between rounded-[20px] p-4 text-left transition hover:-translate-y-0.5" style={{ background: r.tint, color: r.ink }}>
+              <button key={r.theme} onClick={() => setReminder(i)} className={cx('postit flex h-[178px] w-[178px] shrink-0 snap-start flex-col justify-between p-4 text-left transition hover:-translate-y-0.5', i % 2 ? 'rotate-[1.5deg]' : '-rotate-[1.5deg]')} style={{ backgroundColor: r.tint, color: r.ink }}>
                 <span className="font-serif text-[22px] leading-[1.1]">{r.title}</span>
                 <span className="line-clamp-2 text-[13px] leading-snug opacity-80">{r.body}</span>
               </button>
@@ -188,7 +188,7 @@ export function Reflections() {
           const more = ENCOURAGEMENTS.filter((e) => e.theme === r.theme);
           return (
             <div className="pt-2">
-              <div className="paper rounded-[22px] p-6" style={{ background: r.tint, color: r.ink }}>
+              <div className="postit mx-1 mt-3 -rotate-1 p-6" style={{ backgroundColor: r.tint, color: r.ink }}>
                 <p className="font-serif text-[32px] leading-[1.08]">{r.title}</p>
                 <p className="mt-3 text-[17px] leading-relaxed">{r.body}</p>
                 <p className="mt-3 text-right font-hand text-[24px]">— Nina</p>

@@ -186,9 +186,9 @@ export function Landing() {
             </div>
             <p className="max-w-md text-[16px] leading-relaxed text-[#5E4F5C] md:justify-self-end">Small mindset shifts, woven through the app: one shows up on Today to match your energy, and they’re all in Reflections whenever you want one.</p>
           </div>
-          <div className="no-scrollbar -mx-5 mt-10 flex snap-x gap-4 overflow-x-auto px-5 pb-2 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
+          <div className="no-scrollbar -mx-5 mt-10 flex snap-x gap-5 overflow-x-auto px-5 pt-4 pb-8 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
             {REMINDERS.slice(0, 4).map((r, i) => (
-              <article key={r.theme} className={cx('flex min-h-[260px] w-[260px] shrink-0 snap-start flex-col justify-between rounded-[24px] p-6 lg:w-auto', i % 2 ? 'lg:translate-y-6' : '')} style={{ background: r.tint, color: r.ink }}>
+              <article key={r.theme} className={cx('postit flex min-h-[260px] w-[260px] shrink-0 snap-start flex-col justify-between p-6 lg:w-auto', i % 2 ? 'rotate-[1.5deg] lg:translate-y-6' : '-rotate-[1.5deg]')} style={{ backgroundColor: r.tint, color: r.ink }}>
                 <h3 className="font-serif text-[28px] leading-[1.1]">{r.title}</h3>
                 <div>
                   <p className="text-[15px] leading-relaxed opacity-90">{r.body}</p>
@@ -227,7 +227,7 @@ export function Landing() {
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <div className="relative mx-auto grid w-full max-w-[520px] grid-cols-2 gap-x-4 gap-y-6 px-2 pt-4">
             <Polaroid src="images/blazer.jpg" alt="Nina smiling in a grey blazer and tall boots on a sunny street" caption="big day energy" className="-rotate-3" />
-            <Polaroid src="images/ski.jpg" alt="Nina smiling on a snowy mountain in ski gear" caption="snow day, rest day" tape="#C6B3F7" className="mt-8 rotate-2" />
+            <Polaroid src="images/ski.jpg" alt="Nina smiling on a snowy mountain in ski gear" caption="snow day" tape="#C6B3F7" className="mt-8 rotate-2" />
             <Polaroid src="images/cycling.jpg" alt="Nina cycling on a morning ride" caption="morning spin" tape="#9CC2FF" className="col-span-2 mx-auto -mt-2 w-[55%] rotate-1" />
           </div>
           <div>

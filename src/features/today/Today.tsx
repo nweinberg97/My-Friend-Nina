@@ -4,7 +4,7 @@ import { Link, navigate } from '../../lib/router';
 import { Avatar, Blobs, Button, Card, EnergySelector, Eyebrow, NinaSig, Page, SiteLink, Waves, cx } from '../../components/ui';
 import { RitualCard, RitualSheet, suggestedSize } from '../../components/RitualSheet';
 import { Check, Mic, Pen, Settings, Sparkle, Wind, Heart, X } from '../../components/Icons';
-import { encouragementFor, EVENING_GREETINGS, GREETINGS, INTENTION_PROMPT, KIND_THINGS, noteFor, pick, RETURN_LINES, STATE_META } from '../../content/nina';
+import { encouragementFor, EVENING_GREETINGS, GREETINGS, INTENTION_PROMPT, KIND_THINGS, noteFor, pick, RETURN_LINES, STATE_META, REMINDERS } from '../../content/nina';
 import { addDays, isEvening, prettyDate } from '../../lib/dates';
 import type { EnergyState, Ritual } from '../../types';
 
@@ -173,9 +173,10 @@ export function Today() {
 
             {/* Encouragement */}
             {enc && (
-              <section aria-label="A little reminder" className="mt-8 rounded-[22px] border border-line bg-surface p-5">
-                <p className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.14em] text-muted uppercase"><Sparkle size={14} /> A little reminder</p>
+              <section aria-label="A little reminder" className="postit mt-10 -rotate-1 p-5" style={{ backgroundColor: REMINDERS.find((r) => r.theme === enc.theme)?.tint ?? 'var(--soft)', color: REMINDERS.find((r) => r.theme === enc.theme)?.ink }}>
+                <p className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.14em] uppercase opacity-80"><Sparkle size={14} /> A little reminder</p>
                 <p className="mt-2 font-serif text-[21px] leading-snug">{enc.body}</p>
+                <p className="mt-2 text-right font-hand text-[22px]">— Nina</p>
               </section>
             )}
 
