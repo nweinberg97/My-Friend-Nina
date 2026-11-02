@@ -3,9 +3,20 @@ import { useApp } from '../../lib/store';
 import { navigate, Link } from '../../lib/router';
 import { Button, cx } from '../../components/ui';
 import { Arrow, Check, StateIcon, Mic, Pen, Wind } from '../../components/Icons';
-import { DAILY_NOTES, STATE_META } from '../../content/nina';
+import { DAILY_NOTES, REMINDERS, STATE_META } from '../../content/nina';
 import { PhoneStage } from './PhoneStage';
 import type { EnergyState } from '../../types';
+
+// A taped photo-booth print, the scrapbook language used across the brand
+function Polaroid({ src, alt, caption, tape = '#FF9EC4', className }: { src: string; alt: string; caption: string; tape?: string; className?: string }) {
+  return (
+    <figure className={cx('relative bg-white p-3 pb-0 shadow-[0_30px_60px_-30px_rgba(42,30,44,.55),0_2px_6px_rgba(42,30,44,.08)]', className)}>
+      <span aria-hidden="true" className="absolute -top-3 left-1/2 h-6 w-24 -translate-x-1/2 -rotate-3 rounded-[2px] opacity-80" style={{ background: tape }} />
+      <img src={src} alt={alt} className="aspect-[4/5] w-full object-cover" />
+      <figcaption className="py-3 text-center font-hand text-[26px] leading-none text-pink-deep">{caption}</figcaption>
+    </figure>
+  );
+}
 
 const PREVIEW: Record<EnergyState, { note: string; rituals: [string, string][]; extra?: string }> = {
   high: { note: DAILY_NOTES.high[2], rituals: [['Get outside', '30-minute walk'], ['Move your body', '30-minute session'], ['Connect with someone', 'Have a real conversation']] },
@@ -95,13 +106,8 @@ export function Landing() {
             </div>
           </div>
           <div className="relative mx-auto w-full max-w-[420px]">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] shadow-[0_40px_80px_-40px_rgba(42,30,44,.55)]">
-              <img src="images/seawall.jpg" alt="Nina laughing mid-run on the Vancouver seawall on a sunny day" className="h-full w-full object-cover" />
-            </div>
-            <div className="absolute -bottom-5 -left-4 rotate-[-4deg] rounded-[16px] bg-studio px-4 py-3 shadow-lg sm:-left-10">
-              <p className="font-hand text-[26px] leading-none text-pink-deep">meet yourself where you are</p>
-            </div>
-            <div className="absolute -top-4 -right-2 grid size-20 rotate-12 place-items-center rounded-full bg-pink text-center text-[11px] leading-tight font-semibold tracking-wide text-white uppercase shadow-lg">small<br />counts<br />fully</div>
+            <Polaroid src="images/seawall.jpg" alt="Nina laughing mid-run on the Vancouver seawall on a sunny day" caption="meet yourself where you are" className="rotate-[2deg]" />
+            <div className="absolute -top-6 -right-4 grid size-24 rotate-12 place-items-center rounded-full bg-pink text-center text-[12px] leading-tight font-semibold tracking-wide text-white uppercase shadow-lg">small<br />counts<br />fully</div>
           </div>
         </div>
       </section>
@@ -127,8 +133,7 @@ export function Landing() {
       <section className="bg-studio">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-[.8fr_1.2fr] md:items-center">
           <div className="relative mx-auto w-full max-w-[380px]">
-            <img src="images/kayak.jpg" alt="Nina kayaking with a group of friends on a calm inlet" className="aspect-square w-full rounded-[28px] object-cover" />
-            <p className="absolute -right-3 -bottom-4 rotate-3 rounded-[12px] bg-oat px-3 py-2 font-hand text-[22px]">out on the water</p>
+            <Polaroid src="images/kayak.jpg" alt="Nina kayaking with a group of friends on a calm inlet" caption="the whole crew" tape="#FFC7A8" className="-rotate-2" />
           </div>
           <div>
             <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">The whole idea</p>
@@ -171,6 +176,30 @@ export function Landing() {
         </div>
       </section>
 
+      {/* little reminders: the mindset ideas, in Nina's words */}
+      <section className="bg-studio">
+        <div className="mx-auto max-w-6xl px-5 py-20">
+          <div className="grid gap-6 md:grid-cols-[1fr_1fr] md:items-end">
+            <div>
+              <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">Little reminders from Nina</p>
+              <h2 className="mt-3 font-serif text-[40px] leading-tight sm:text-[52px]">The pep talk you’d get from a good friend.</h2>
+            </div>
+            <p className="max-w-md text-[16px] leading-relaxed text-[#5E4F5C] md:justify-self-end">Small mindset shifts, woven through the app: one shows up on Today to match your energy, and they’re all in Reflections whenever you want one.</p>
+          </div>
+          <div className="no-scrollbar -mx-5 mt-10 flex snap-x gap-4 overflow-x-auto px-5 pb-2 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
+            {REMINDERS.slice(0, 4).map((r, i) => (
+              <article key={r.theme} className={cx('flex min-h-[260px] w-[260px] shrink-0 snap-start flex-col justify-between rounded-[24px] p-6 lg:w-auto', i % 2 ? 'lg:translate-y-6' : '')} style={{ background: r.tint, color: r.ink }}>
+                <h3 className="font-serif text-[28px] leading-[1.1]">{r.title}</h3>
+                <div>
+                  <p className="text-[15px] leading-relaxed opacity-90">{r.body}</p>
+                  <p className="mt-3 text-right font-hand text-[22px]">— Nina</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* adaptive */}
       <section className="bg-espresso text-oat">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-2 md:items-center">
@@ -196,10 +225,10 @@ export function Landing() {
       {/* Nina's world */}
       <section id="nina" className="mx-auto max-w-6xl px-5 py-20">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
-          <div className="grid grid-cols-2 gap-3">
-            <img src="images/blazer.jpg" alt="Nina smiling in a grey blazer and tall boots on a sunny street" className="row-span-2 h-full w-full rounded-[24px] object-cover" />
-            <img src="images/cycling.jpg" alt="Nina cycling on a morning ride" className="aspect-[4/3] w-full rounded-[24px] object-cover" />
-            <img src="images/ski.jpg" alt="Nina smiling on a snowy mountain in ski gear" className="aspect-[4/3] w-full rounded-[24px] object-cover" />
+          <div className="relative mx-auto grid w-full max-w-[520px] grid-cols-2 gap-x-4 gap-y-6 px-2 pt-4">
+            <Polaroid src="images/blazer.jpg" alt="Nina smiling in a grey blazer and tall boots on a sunny street" caption="big day energy" className="-rotate-3" />
+            <Polaroid src="images/ski.jpg" alt="Nina smiling on a snowy mountain in ski gear" caption="snow day, rest day" tape="#C6B3F7" className="mt-8 rotate-2" />
+            <Polaroid src="images/cycling.jpg" alt="Nina cycling on a morning ride" caption="morning spin" tape="#9CC2FF" className="col-span-2 mx-auto -mt-2 w-[55%] rotate-1" />
           </div>
           <div>
             <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">Your friend, Nina</p>

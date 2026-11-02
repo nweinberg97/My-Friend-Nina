@@ -92,7 +92,7 @@ export function Today() {
           <div className="mt-3">
             <EnergySelector value={state} onChange={(s) => { setEnergy(s); setShowMore(false); }} compact={!!state} />
           </div>
-          {state && <p className="mt-2 text-[13px] text-muted" aria-live="polite">{STATE_META[state].feel}. {STATE_META[state].sizeHint}.</p>}
+          {state && <p className="mt-2 text-[13px] text-muted" aria-live="polite">{STATE_META[state].feel}. {STATE_META[state].sizeHint.replace(/\.$/, "")}.</p>}
         </section>
 
         {state && (
@@ -103,7 +103,7 @@ export function Today() {
                 {checkin?.intention && !editingIntent ? (
                   <button onClick={() => setEditingIntent(true)} className="group flex w-full items-start gap-3 rounded-[18px] border border-dashed border-line px-4 py-3 text-left hover:border-accent">
                     <Sparkle size={18} className="mt-1 shrink-0 text-accent-text" />
-                    <span className="flex-1"><span className="block text-[12px] text-muted">Making room for</span><span className="font-hand text-[24px] leading-tight">{checkin.intention}</span></span>
+                    <span className="flex-1"><span className="block text-[12px] text-muted">Making room for</span><span className="font-serif text-[19px] leading-tight">{checkin.intention}</span></span>
                     <span className="text-[13px] text-muted group-hover:text-ink">Edit</span>
                   </button>
                 ) : (
@@ -172,7 +172,7 @@ export function Today() {
             {enc && (
               <section aria-label="A little reminder" className="mt-8 rounded-[22px] border border-line bg-surface p-5">
                 <p className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.14em] text-muted uppercase"><Sparkle size={14} /> A little reminder</p>
-                <p className="mt-2 font-hand text-[25px] leading-snug">{enc.body}</p>
+                <p className="mt-2 font-serif text-[21px] leading-snug">{enc.body}</p>
               </section>
             )}
 

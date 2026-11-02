@@ -99,7 +99,7 @@ export function Reflections() {
 
         <Link to={`/reflections/new/write?prompt=${encodeURIComponent(prompt)}`} className="mt-3 block rounded-[18px] border border-dashed border-line px-4 py-3 hover:border-accent">
           <span className="text-[12px] text-muted">Today’s prompt, if you want one</span>
-          <span className="block font-hand text-[24px] leading-tight">{prompt}</span>
+          <span className="mt-0.5 block font-serif text-[19px] italic leading-snug">{prompt}</span>
         </Link>
 
         <section aria-labelledby="rem-h" className="mt-8">
@@ -141,9 +141,9 @@ export function Reflections() {
             <h2 id="notes-h" className="font-serif text-[22px]">Notes to me</h2>
             <div className="no-scrollbar -mx-5 mt-3 flex gap-3 overflow-x-auto px-5 pb-1">
               {[...pinnedNotes, ...otherNotes].map((n) => (
-                <Link key={n.id} to={`/reflections/note/${n.id}`} className="paper relative w-[240px] shrink-0 rotate-[-.6deg] rounded-[18px] bg-[#FFF8E8] p-4 text-[#3A2A36] shadow-[0_8px_20px_-14px_rgba(0,0,0,.4)] odd:rotate-[.8deg]">
+                <Link key={n.id} to={`/reflections/note/${n.id}`} className="relative w-[240px] shrink-0 rounded-[18px] bg-surface p-4 text-ink shadow-[0_8px_20px_-14px_rgba(42,30,44,.35)] ring-1 ring-line">
                   {n.pinned && <Pin size={15} className="absolute top-3 right-3 text-[#C4004E]" aria-label="Pinned" />}
-                  <p className="font-hand text-[22px] leading-snug">“{n.forward || n.friendSays}”</p>
+                  <p className="font-serif text-[18px] leading-snug">“{n.forward || n.friendSays}”</p>
                   <p className="mt-2 text-[12px] opacity-70">{relativeDay(n.createdAt.slice(0, 10), today)}</p>
                 </Link>
               ))}
@@ -199,7 +199,7 @@ export function Reflections() {
               {more.length > 0 && (
                 <div className="mt-5 space-y-3">
                   <p className="text-[13px] text-muted">You might also see these on Today:</p>
-                  {more.map((m) => <p key={m.id} className="rounded-[14px] bg-soft/60 px-4 py-3 font-hand text-[21px] leading-snug">“{m.body}”</p>)}
+                  {more.map((m) => <p key={m.id} className="rounded-[14px] bg-soft/60 px-4 py-3 font-serif text-[17px] italic leading-snug">“{m.body}”</p>)}
                 </div>
               )}
               <div className="mt-6 flex gap-2">

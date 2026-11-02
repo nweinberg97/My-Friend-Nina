@@ -15,10 +15,10 @@ export const STATE_META: Record<
   EnergyState,
   { label: string; short: string; feel: string; sizeHint: string }
 > = {
-  high: { label: 'High energy', short: 'High', feel: "Ready for more today", sizeHint: 'Full sizes suggested' },
-  steady: { label: 'Steady', short: 'Steady', feel: 'A pretty normal day', sizeHint: 'Small or full' },
-  low: { label: 'Low battery', short: 'Low', feel: 'Keeping it simple', sizeHint: 'Tiny or small' },
-  rest: { label: 'Rest', short: 'Rest', feel: 'No plan needed', sizeHint: 'No checklist today' },
+  high: { label: 'High energy', short: 'High', feel: 'Slept well, feeling good, ready to go', sizeHint: 'Full versions suggested' },
+  steady: { label: 'Steady', short: 'Steady', feel: 'A normal day: work, errands, life', sizeHint: 'Small or full, your call' },
+  low: { label: 'Low battery', short: 'Low', feel: 'Tired, busy or a bit flat', sizeHint: 'Tiny or small. One is plenty.' },
+  rest: { label: 'Rest', short: 'Rest', feel: 'Sick, sore, burnt out or just done', sizeHint: 'No checklist. One kind thing.' },
 };
 
 export const GREETINGS = [
@@ -38,28 +38,28 @@ export const EVENING_GREETINGS = [
 // One main daily note per state, rotated by date.
 export const DAILY_NOTES: Record<EnergyState, string[]> = {
   high: [
-    "Okay, we're feeling good. What's something you've been wanting to do? Maybe today's the day.",
-    "Love a day when things are clicking. Enjoy it. No need to turn it into a competition.",
-    "Use the good energy, but don't spend it all before lunch. Future you would like some too.",
-    "Big day energy. Go do the thing, then come back and tell me how it went.",
+    "Good energy day. Pick the thing you've been putting off and knock it out before lunch.",
+    "Feeling good? Go for the full workout, then eat a proper meal after. Both count.",
+    "Use the good energy, but don't spend it all by noon. Future you would like some too.",
+    "Big day energy. Do the thing, drink some water, then come back and tell me how it went.",
   ],
   steady: [
-    'A pretty normal day is actually a lovely thing. Let\'s not overlook it.',
-    "Nothing to prove today. Just find your rhythm and get on with it.",
-    'Nothing dramatic needed. Keep doing the little things that make you feel like you.',
-    "Steady is underrated. Coffee, a walk, one nice thing for yourself. Done.",
+    "Normal day? Perfect. Get some steps in on the way to wherever you're going and call it a win.",
+    "Nothing to prove today. Your usual stuff, plus one small thing just for you.",
+    "Keep the basics going: water, a real lunch, ten minutes outside. That's the whole plan.",
+    "Steady is underrated. Coffee, a walk, bed at a decent time. Done.",
   ],
   low: [
-    "Okay, low battery day. We are not fixing your whole life today. Water, something with protein, maybe five minutes outside. That counts.",
-    "Let's keep things simple. Something to eat, a little fresh air if you feel like it, and absolutely no unnecessary drama.",
-    "Not every day is a big day. Pick something small and let that be enough.",
-    "Let's not make today harder than it needs to be. One little thing. We'll call that a win.",
+    "Low battery day. We're not fixing your whole life today. Water, something with protein, five minutes outside. That counts.",
+    "Tired? Fair. Pick the tiny version of one thing and do it before the couch gets you.",
+    "Keep it simple: eat something real, refill your water, early night. That's a solid day.",
+    "One little thing, then you're off the hook. Even a lap around the block.",
   ],
   rest: [
-    "Nothing's due today. Your only job is to be a person.",
-    "You don't need to earn a quiet day. Just have one.",
-    "Cancel the imaginary expectations. Today's allowed to look different.",
-    'Today doesn\'t need a plan. Do what feels kind to you. That\'s enough.',
+    "Rest day. Nothing's due. Your only job is to be a person and maybe drink some water.",
+    "You don't need to earn a quiet day. Sleep in, eat something good, recharge.",
+    "Sick, sore or just done? Rest is part of the plan, not a break from it.",
+    "Today's allowed to look different. Rest now so tomorrow's easier.",
   ],
 };
 
@@ -111,11 +111,11 @@ export const REFLECTION_PROMPTS = [
 
 export const KIND_THINGS = [
   'A long shower with your good playlist',
-  'Something warm to drink, sitting down',
+  'Make something warm and actually sit down to drink it',
   'Text someone who makes you laugh',
-  'Lie on the floor. Genuinely underrated.',
-  'Step outside for one breath of fresh air',
-  'An early night, no guilt attached',
+  'Five minutes of stretching on the floor',
+  'Step outside for some fresh air',
+  'Phone off and in bed by ten',
 ];
 
 export const RETURN_LINES = [
@@ -173,12 +173,12 @@ export function encouragementFor(state: EnergyState, date: string) {
 // "Little reminders from Nina": the underlying insights, gathered into one
 // browsable collection. Titles and copy are Nina's words. [DRAFT — NINA TO APPROVE]
 export const REMINDERS: { theme: string; title: string; body: string; tint: string; ink: string }[] = [
-  { theme: 'learning', title: 'Not yet isn’t never', body: 'Being bad at something is just the beginning part. Everyone has one. You’ll figure it out, give it time.', tint: '#F3DCE5', ink: '#7A1F45' },
-  { theme: 'notice', title: 'Notice the little stuff', body: 'Hot shower, good song, the sun on the water. You’ve got more going for you than your brain admits.', tint: '#FFF1C2', ink: '#6B4A00' },
-  { theme: 'hope', title: 'Hope, plus one small step', body: 'Admit it’s messy. Don’t move in there. Then pick one tiny thing you can actually do.', tint: '#DFEBD6', ink: '#2F4A33' },
-  { theme: 'curious', title: 'Curious, not critical', body: 'Swap “what’s wrong with me” for “huh, what’s going on here?” Notice where you feel it. No fixing required.', tint: '#DCEBFF', ink: '#1E3F75' },
-  { theme: 'present', title: 'Phone down, eyes up', body: 'Slow down for a second. What can you hear? Who’s in front of you? That’s the whole exercise.', tint: '#FFE3D3', ink: '#7A3410' },
-  { theme: 'grace', title: 'Maybe they’re having a day too', body: 'Not every weird interaction needs an investigation. Grudges are heavy. Put that backpack down.', tint: '#E9E0F5', ink: '#43306B' },
-  { theme: 'kind', title: 'Talk to yourself like your best friend would', body: 'You’d never speak to her like that. So let’s retire that particular voice in your head.', tint: '#F7D6D6', ink: '#7A2A2A' },
-  { theme: 'room', title: 'There’s room for you', body: 'You don’t have to beat anyone to get your turn. When something ends, it makes space. Enough can be enough.', tint: '#D8DFD2', ink: '#2F4A40' },
+  { theme: 'learning', title: 'Not yet isn’t never', body: 'Being bad at something is just the beginning part. Everyone has one. You’ll figure it out, give it time.', tint: '#FCDCE8', ink: '#7A1F45' },
+  { theme: 'notice', title: 'Notice the little stuff', body: 'Hot shower, good song, the sun on the water. You’ve got more going for you than your brain admits.', tint: '#FFE4CC', ink: '#7A3A10' },
+  { theme: 'hope', title: 'Hope, plus one small step', body: 'Admit it’s messy. Don’t move in there. Then pick one tiny thing you can actually do.', tint: '#D3EAE1', ink: '#1F4A40' },
+  { theme: 'curious', title: 'Curious, not critical', body: 'Swap “what’s wrong with me” for “huh, what’s going on here?” Notice where you feel it. No fixing required.', tint: '#DCE8FC', ink: '#1E3F75' },
+  { theme: 'present', title: 'Phone down, eyes up', body: 'Slow down for a second. What can you hear? Who’s in front of you? That’s the whole exercise.', tint: '#FFD9D0', ink: '#7A2A1F' },
+  { theme: 'grace', title: 'Maybe they’re having a day too', body: 'Not every weird interaction needs an investigation. Grudges are heavy. Put that backpack down.', tint: '#E9E0FA', ink: '#43306B' },
+  { theme: 'kind', title: 'Talk to yourself like your best friend would', body: 'You’d never speak to her like that. So let’s retire that particular voice in your head.', tint: '#F3DAF5', ink: '#5E2466' },
+  { theme: 'room', title: 'There’s room for you', body: 'You don’t have to beat anyone to get your turn. When something ends, it makes space. Enough can be enough.', tint: '#E4F0D0', ink: '#3A4A1F' },
 ];

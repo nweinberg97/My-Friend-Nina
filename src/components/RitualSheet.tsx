@@ -55,7 +55,7 @@ export function RitualSheet({ ritual, open, onClose, onEdit }: { ritual?: Ritual
       <Eyebrow className="mt-1">{pillar.short}</Eyebrow>
       <h2 className="mt-1 pr-10 font-serif text-[30px] leading-[1.1]">{ritual.name}</h2>
       <p className="mt-2 text-[15px] text-muted">{ritual.description}</p>
-      {ritual.ninaNote && <p className="mt-3 rounded-[14px] bg-soft/60 px-4 py-3 font-hand text-[21px] leading-snug text-ink">“{ritual.ninaNote}”</p>}
+      {ritual.ninaNote && <p className="mt-3 rounded-[14px] bg-soft/60 px-4 py-3 font-serif text-[18px] italic leading-snug text-ink">“{ritual.ninaNote}”</p>}
       <div className="mt-5">
         <p className="mb-2 text-[14px] font-medium">Pick your size. They all count the same.</p>
         <SizePicker value={size} onChange={setSize} ritual={ritual} suggested={mood === 'rest' ? undefined : suggestedSize(mood)} />

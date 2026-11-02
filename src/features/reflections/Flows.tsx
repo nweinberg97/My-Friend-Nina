@@ -60,7 +60,7 @@ export function NewWrite({ initialPrompt, initialMode = 'type' }: { initialPromp
         </div>
         {prompt ? (
           <div className="mt-4 flex items-start gap-2 rounded-[14px] bg-soft/70 px-4 py-3">
-            <p className="flex-1 font-hand text-[23px] leading-snug">{prompt}</p>
+            <p className="flex-1 font-serif text-[19px] italic leading-snug">{prompt}</p>
             <button className="min-h-9 text-[13px] text-muted" onClick={() => setPrompt(pick(REFLECTION_PROMPTS, String(Date.now())))}>Another</button>
             <button className="min-h-9 text-[13px] text-muted" onClick={() => setPrompt(undefined)}>None</button>
           </div>
@@ -128,7 +128,7 @@ export function GetItOut() {
         <div key={step} className="anim-rise mt-8">
           {step === 0 && (
             <>
-              <div className="flex items-center gap-3"><Avatar size={40} /><Eyebrow>{GET_IT_OUT.tagline}</Eyebrow></div>
+              <div className="flex items-center gap-3"><Avatar size={40} /><p className="text-[15px] text-muted">{GET_IT_OUT.tagline}</p></div>
               <h1 className="mt-5 font-serif text-[34px] leading-[1.1]">{GET_IT_OUT.open}</h1>
               <div className="mt-8 flex flex-col gap-2">
                 {[
@@ -236,7 +236,7 @@ export function NoteFlow({ editId }: { editId?: string }) {
           <Eyebrow>{step + 1} of 3</Eyebrow>
           <h1 className="mt-2 font-serif text-[32px] leading-[1.1]">{s.q}</h1>
           <label htmlFor="nf" className="sr-only">{s.q}</label>
-          <textarea id="nf" autoFocus rows={5} value={n[s.key]} onChange={(e) => setN({ ...n, [s.key]: e.target.value })} placeholder={s.ph} className="paper mt-6 w-full rounded-[18px] border border-line bg-[#FFF8E8] p-4 font-hand text-[24px] leading-snug text-[#3A2A36] outline-none focus:border-accent" />
+          <textarea id="nf" autoFocus rows={5} value={n[s.key]} onChange={(e) => setN({ ...n, [s.key]: e.target.value })} placeholder={s.ph} className="mt-6 w-full rounded-[18px] border border-line bg-surface p-4 text-[18px] leading-relaxed text-ink outline-none focus:border-accent" />
           <div className="mt-6 flex gap-2">
             {step < 2 ? <Button full onClick={() => setStep(step + 1)} disabled={!n[s.key].trim()}>Next</Button> : <Button full onClick={save} disabled={!n.forward.trim()}><Pin size={18} /> {existing ? 'Save note' : 'Pin my note'}</Button>}
           </div>
@@ -256,14 +256,17 @@ export function NoteDetail({ id }: { id: string }) {
     <Page nav={false}>
       <TopBar title="A little note to me" onBack={() => navigate('/reflections')} />
       <div className="px-5 pb-10">
-        <article className="paper rotate-[-.5deg] rounded-[22px] bg-[#FFF8E8] p-6 text-[#3A2A36] shadow-[0_18px_40px_-24px_rgba(0,0,0,.45)]">
-          <p className="text-[12px] tracking-[0.14em] uppercase opacity-60">{prettyDate(n.createdAt.slice(0, 10))}</p>
-          <p className="mt-4 text-[13px] opacity-70">I’ve been giving myself a hard time about…</p>
-          <p className="font-hand text-[24px] leading-snug">{n.lookBack}</p>
-          <p className="mt-4 text-[13px] opacity-70">What my best friend would say:</p>
-          <p className="font-hand text-[24px] leading-snug">{n.friendSays}</p>
-          <p className="mt-4 text-[13px] opacity-70">From here, I’m going to…</p>
-          <p className="font-hand text-[28px] leading-snug text-[#C4004E]">{n.forward}</p>
+        <article className="relative rounded-[24px] bg-surface p-6 text-ink shadow-[0_18px_40px_-24px_rgba(42,30,44,.35)] ring-1 ring-line">
+          <span aria-hidden="true" className="absolute -top-2.5 left-1/2 h-5 w-24 -translate-x-1/2 -rotate-2 rounded-[3px] bg-pink/25" />
+          <p className="text-[12px] font-semibold tracking-[0.14em] text-muted uppercase">{prettyDate(n.createdAt.slice(0, 10))}</p>
+          <p className="mt-5 text-[13px] font-semibold text-accent-text">I’ve been giving myself a hard time about</p>
+          <p className="mt-1 text-[17px] leading-relaxed">{n.lookBack}</p>
+          <p className="mt-5 text-[13px] font-semibold text-accent-text">What my best friend would say</p>
+          <p className="mt-1 text-[17px] leading-relaxed">{n.friendSays}</p>
+          <div className="mt-5 rounded-[16px] bg-soft/70 p-4">
+            <p className="text-[13px] font-semibold text-accent-text">From here, I’m going to</p>
+            <p className="mt-1 font-serif text-[23px] leading-snug">{n.forward}</p>
+          </div>
         </article>
         <div className="mt-6 grid grid-cols-3 gap-2">
           <Button variant="line" onClick={() => { updateNote(n.id, { pinned: !n.pinned }); toast(n.pinned ? 'Unpinned' : 'Pinned'); }}><Pin size={17} /> {n.pinned ? 'Unpin' : 'Pin'}</Button>
@@ -298,7 +301,7 @@ export function ReflectionDetail({ id }: { id: string }) {
         <p className="text-[13px] text-muted">{prettyDate(r.createdAt.slice(0, 10))} · {timeOf(r.createdAt)}{r.state && ` · ${STATE_META[r.state].label}`}</p>
         {r.sample && <p className="mt-2 inline-block rounded-full bg-soft px-2.5 py-0.5 text-[12px]">Sample entry from a demo user{r.audioId ? ' · placeholder audio' : ''}</p>}
         {r.title && <h1 className="mt-3 font-serif text-[32px] leading-tight">{r.title}</h1>}
-        {r.prompt && <p className="mt-3 font-hand text-[22px] text-accent-text">{r.prompt}</p>}
+        {r.prompt && <p className="mt-3 font-serif text-[18px] italic text-accent-text">{r.prompt}</p>}
         {r.audioId && <div className="mt-5"><AudioPlayer src={url} duration={r.durationSec} label={r.title} /></div>}
         {r.guided && (
           <div className="mt-5 space-y-4">
