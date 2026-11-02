@@ -93,7 +93,7 @@ export function About() {
       <p className="mt-3">This is my little corner of the internet for the days you’re crushing it, the days you’re just getting through, and every couch-and-soup day in between. Check in, pick a tiny thing, get stuff off your chest. That’s it.</p>
       <p className="mt-3 text-[13px] text-muted">[Draft intro, written for Nina to rewrite in her own words. We haven’t made up any facts about her life.]</p>
       <h2 className="mt-8 font-serif text-[24px]">The honest disclaimer</h2>
-      <p className="mt-2">Nina is a friend, not a professional. My Friend Nina is a lifestyle and self-care companion. It isn’t medical, nutritional or mental-health advice, and it doesn’t diagnose, track symptoms or replace real support. If you need more than a friendly nudge, please reach out to someone who can help.</p>
+      <p className="mt-2">My Friend Nina is a lifestyle and self-care companion: everyday encouragement, ideas and a bit of company from a friend. It isn’t professional care. It isn’t medical, nutritional or mental-health advice, and it doesn’t diagnose, treat or replace your doctor, a counsellor or other professional help. If you need more than a friend’s nudge, please reach out to someone qualified to help.</p>
       <Link to="/support" className="mt-3 inline-flex min-h-11 items-center gap-2 font-medium text-accent-text"><LifeBuoy size={18} /> Need more support?</Link>
       <h2 className="mt-8 font-serif text-[24px]">About this prototype</h2>
       <p className="mt-2">This is an early interactive prototype. Photos are placeholders pending Nina’s approved assets, sample data belongs to a made-up demo user, and all of Nina’s copy is a draft until she signs off.</p>
@@ -122,7 +122,7 @@ export function Support() {
   return (
     <InfoPage title="Need more support?">
       <h1 className="font-serif text-[32px] leading-tight">You don’t have to figure it all out alone.</h1>
-      <p className="mt-3">This app is a friend, not a professional. If things feel like more than a rough day, please talk to someone who can really help.</p>
+      <p className="mt-3">Nina’s here for the everyday, but she isn’t a substitute for professional help. If things feel like more than a rough day, please talk to someone who can really help.</p>
       <div className="mt-6 space-y-3">
         <a href="tel:988" className="block rounded-[18px] border border-line bg-surface p-4 hover:border-accent">
           <p className="text-[13px] text-muted">Canada · call or text, 24/7</p>

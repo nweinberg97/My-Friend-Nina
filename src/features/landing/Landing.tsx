@@ -256,7 +256,7 @@ export function Landing() {
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 text-[14px] text-[#5E4F5C] md:flex-row md:items-start md:justify-between">
           <div>
             <p className="font-serif text-[22px] italic text-espresso">my friend <span className="text-pink">nina</span></p>
-            <p className="mt-2 max-w-sm">Nina is a friend, not a professional. Nothing here is medical or mental-health advice. Everything you save stays on your device.</p>
+            <p className="mt-2 max-w-sm">Nina is here as a friend: real encouragement for everyday life, not professional care. Nothing here replaces medical or mental-health advice. Everything you save stays on your device.</p>
           </div>
           <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
             <Link to="/about" className="hover:text-espresso">About</Link>

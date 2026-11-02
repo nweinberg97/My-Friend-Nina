@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../../lib/store';
-import { Button, Eyebrow, Page, cx } from '../../components/ui';
+import { Button, Eyebrow, Page, SiteLink, cx } from '../../components/ui';
 import { RitualCard, RitualEditor, RitualSheet, suggestedSize } from '../../components/RitualSheet';
 import { Plus, Check } from '../../components/Icons';
 import { NINA_PICKS, PILLARS } from '../../content/rituals';
@@ -25,7 +25,8 @@ export function Rituals() {
   return (
     <Page>
       <div className="safe-top px-5">
-        <header className="pt-6">
+        <header className="relative pt-6">
+          <SiteLink className="absolute top-4 right-0" />
           <Eyebrow>The four pillars</Eyebrow>
           <h1 className="mt-2 font-serif text-[40px] leading-[1.05]">Rituals</h1>
           <p className="mt-2 text-[15px] text-muted">

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Sheet, NinaSig } from '../../components/ui';
 import { useApp } from '../../lib/store';
 import { Link } from '../../lib/router';
-import { Eyebrow, Page, cx } from '../../components/ui';
+import { Eyebrow, Page, SiteLink, cx } from '../../components/ui';
 import { Mic, Pen, Wind, Heart, Search, Pin, Play, LifeBuoy } from '../../components/Icons';
 import { relativeDay, timeOf, addDays } from '../../lib/dates';
 import { GET_IT_OUT, NOTE_TO_ME, REFLECTION_PROMPTS, REMINDERS, ENCOURAGEMENTS, pick } from '../../content/nina';
@@ -68,7 +68,8 @@ export function Reflections() {
   return (
     <Page>
       <div className="safe-top px-5">
-        <header className="pt-6">
+        <header className="relative pt-6">
+          <SiteLink className="absolute top-4 right-0" />
           <Eyebrow>Your collection</Eyebrow>
           <h1 className="mt-2 font-serif text-[40px] leading-[1.05]">Reflections</h1>
           <p className="mt-2 text-[15px] text-muted">Everything you’ve said, written and noticed. All on this device.</p>

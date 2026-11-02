@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from '../../lib/store';
 import { Link, navigate } from '../../lib/router';
-import { Avatar, Blobs, Button, Card, EnergySelector, Eyebrow, NinaSig, Page, Waves, cx } from '../../components/ui';
+import { Avatar, Blobs, Button, Card, EnergySelector, Eyebrow, NinaSig, Page, SiteLink, Waves, cx } from '../../components/ui';
 import { RitualCard, RitualSheet, suggestedSize } from '../../components/RitualSheet';
 import { Check, Mic, Pen, Settings, Sparkle, Wind, Heart, X } from '../../components/Icons';
 import { encouragementFor, EVENING_GREETINGS, GREETINGS, INTENTION_PROMPT, KIND_THINGS, noteFor, pick, RETURN_LINES, STATE_META } from '../../content/nina';
@@ -51,7 +51,10 @@ export function Today() {
       <div className="safe-top relative px-5">
         <div className="flex h-16 items-center justify-between">
           <span className="font-serif text-[20px] italic">my friend <span className="text-accent-text">nina</span></span>
-          <Link to="/settings" className="grid size-11 place-items-center rounded-full text-muted hover:bg-soft/60" ariaLabel="Settings"><Settings size={21} /></Link>
+          <span className="flex items-center gap-1">
+            <SiteLink />
+            <Link to="/settings" className="grid size-11 place-items-center rounded-full text-muted hover:bg-soft/60" ariaLabel="Settings"><Settings size={21} /></Link>
+          </span>
         </div>
 
         <header className="anim-rise pt-2">

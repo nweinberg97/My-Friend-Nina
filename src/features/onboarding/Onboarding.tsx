@@ -84,7 +84,7 @@ export function Onboarding() {
                 </li>
               ))}
             </ul>
-            <p className="mt-8 rounded-[14px] bg-soft/60 px-4 py-3 text-[13px] leading-relaxed text-muted">Just so you know: I’m a friend, not a professional. This is a lifestyle app, not medical or mental-health advice.</p>
+            <p className="mt-8 rounded-[14px] bg-soft/60 px-4 py-3 text-[13px] leading-relaxed text-muted">Just so you know: I’m here to cheer you on, not to replace professional help. This is a lifestyle app, not medical or mental-health advice.</p>
             <div className="mt-auto pt-8"><Button full onClick={next}>Sounds good</Button></div>
           </>
         )}
