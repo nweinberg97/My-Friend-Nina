@@ -75,27 +75,34 @@ export function Reflections() {
           <p className="mt-2 text-[15px] text-muted">Everything you’ve said, written and noticed. All on this device.</p>
         </header>
 
-        <section aria-label="Start a reflection" className="mt-6 flex flex-col gap-2">
-          <div className="relative overflow-hidden rounded-[24px] bg-accent p-5 text-accent-ink">
-            <div aria-hidden="true" className="absolute -top-16 -right-10 size-48 rounded-full bg-white/15 blur-2xl" />
-            <p className="relative font-serif text-[26px] leading-tight">Reflect</p>
-            <p className="relative mt-1 text-[14px] opacity-90">What’s on your mind today. Say it or type it, a line or a page.</p>
-            <div className="relative mt-4 grid grid-cols-2 gap-2">
-              <Link to="/reflections/new/voice" className="flex min-h-12 items-center justify-center gap-2 rounded-[14px] bg-white text-[15px] font-medium text-accent-text shadow-sm"><Mic size={18} /> Talk</Link>
-              <Link to="/reflections/new/write" className="flex min-h-12 items-center justify-center gap-2 rounded-[14px] bg-white/20 text-[15px] font-medium ring-1 ring-white/50"><Pen size={18} /> Type</Link>
+        <section aria-label="Start a reflection" className="mt-6 flex flex-col gap-3">
+          {/* Journal: thoughts worth keeping */}
+          <div className="rounded-[24px] bg-surface p-5 ring-1 ring-line">
+            <div className="flex items-start gap-3">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-soft text-accent-text"><Pen size={20} /></span>
+              <div>
+                <p className="font-serif text-[24px] leading-tight">Journal</p>
+                <p className="mt-0.5 text-[14px] leading-snug text-muted">Thoughts worth keeping. Saved here so you can read them back later.</p>
+              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <Link to="/reflections/new/voice" className="flex min-h-12 items-center justify-center gap-2 rounded-[14px] bg-accent text-[15px] font-medium text-accent-ink"><Mic size={18} /> Talk</Link>
+              <Link to="/reflections/new/write" className="flex min-h-12 items-center justify-center gap-2 rounded-[14px] border border-line text-[15px] font-medium hover:border-accent"><Pen size={18} /> Type</Link>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              { to: '/reflections/new/get-it-out', label: GET_IT_OUT.name, sub: 'When your head’s too loud. Vent, then one small thing.', Icon: Wind },
-              { to: '/reflections/new/note', label: NOTE_TO_ME.name, sub: 'When you’re being hard on yourself.', Icon: Heart },
-            ].map(({ to, label, sub, Icon }) => (
-              <Link key={to} to={to} className="flex min-h-[132px] flex-col justify-between rounded-[20px] border border-line bg-surface p-4 transition hover:border-accent">
-                <Icon size={22} className="text-accent-text" />
-                <span><span className="block text-[16px] font-medium leading-tight">{label}</span><span className="mt-0.5 block text-[13px] leading-snug text-muted">{sub}</span></span>
-              </Link>
-            ))}
-          </div>
+          {/* Get It Out: venting, let go by default */}
+          <Link to="/reflections/new/get-it-out" className="relative flex items-center gap-3 overflow-hidden rounded-[24px] bg-[#241A27] p-5 text-[#FFF3F6]">
+            <span aria-hidden="true" className="absolute -right-10 -bottom-16 size-44 rounded-full bg-[#7A3366] opacity-60 blur-2xl" />
+            <span className="relative grid size-11 shrink-0 place-items-center rounded-full bg-white/10"><Wind size={20} /></span>
+            <span className="relative flex-1">
+              <span className="block font-serif text-[24px] leading-tight">Get it out</span>
+              <span className="mt-0.5 block text-[14px] leading-snug text-[#CDB7C6]">Head too loud? Just vent. Messy is fine, and nothing’s saved unless you want it.</span>
+            </span>
+          </Link>
+          <Link to="/reflections/new/note" className="flex min-h-14 items-center gap-3 rounded-[18px] px-2 text-[15px] hover:bg-soft/40">
+            <Heart size={20} className="text-accent-text" />
+            <span className="flex-1"><span className="font-medium">{NOTE_TO_ME.name}</span> <span className="text-muted">· when you’re being hard on yourself</span></span>
+          </Link>
         </section>
 
         <Link to={`/reflections/new/write?prompt=${encodeURIComponent(prompt)}`} className="mt-3 block rounded-[18px] border border-dashed border-line px-4 py-3 hover:border-accent">

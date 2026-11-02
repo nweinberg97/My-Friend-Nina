@@ -46,7 +46,7 @@ export function NewWrite({ initialPrompt, initialMode = 'type' }: { initialPromp
   };
   return (
     <Page nav={false}>
-      <TopBar title="Reflect" onBack={leave} right={<Button variant="ghost" className="min-h-10 px-3" disabled={!ready} onClick={save}>Save</Button>} />
+      <TopBar title="Journal" onBack={leave} right={<Button variant="ghost" className="min-h-10 px-3" disabled={!ready} onClick={save}>Save</Button>} />
       <div className="px-5 pb-10">
         <div className="flex items-center justify-between gap-3">
           <p className="text-[13px] text-muted">{prettyDate(today)}</p>
@@ -58,6 +58,7 @@ export function NewWrite({ initialPrompt, initialMode = 'type' }: { initialPromp
             ))}
           </div>
         </div>
+        <p className="mt-1 text-[13px] text-muted">Saved to your journal so you can read it back later.</p>
         {prompt ? (
           <div className="mt-4 flex items-start gap-2 rounded-[14px] bg-soft/70 px-4 py-3">
             <p className="flex-1 font-serif text-[19px] italic leading-snug">{prompt}</p>
@@ -111,10 +112,15 @@ export function GetItOut() {
   const dirty = !!(a.express || a.noticing || blob);
   const { leave, guard } = useLeaveGuard(dirty);
   const total = 5;
+  // Venting gets its own darker, quieter room, so it never looks like journaling
+  useEffect(() => {
+    document.documentElement.classList.add('vent-mode');
+    return () => document.documentElement.classList.remove('vent-mode');
+  }, []);
 
   const save = async () => {
     await addReflection({ type: blob ? 'voice' : 'guided', title: GET_IT_OUT.name, guided: a, durationSec: blob ? secs : undefined, state: mood }, blob ?? undefined);
-    toast('Saved. Proud of you for getting it out.');
+    toast('Kept in your reflections. Proud of you for getting it out.');
     navigate('/reflections', { replace: true });
   };
 
@@ -195,10 +201,10 @@ export function GetItOut() {
               {a.nextStep === 'break' && <p className="mt-3 text-[15px] text-muted">Water, window, maybe a few minutes outside. Then come back if you want.</p>}
               {a.nextStep === 'reach' && <p className="mt-3 text-[15px] text-muted">Who’s someone who always makes you feel a bit better? Send them a text. Even just “hey.”</p>}
               <div className="mt-8 flex flex-col gap-2">
-                <Button full onClick={save}>Save this</Button>
-                {a.nextStep === 'ritual' && <Button full variant="soft" onClick={async () => { await save(); navigate('/rituals'); }}>Save and go to my rituals</Button>}
-                <Button full variant="ghost" onClick={() => { toast('Let go. Nothing saved.'); navigate('/reflections', { replace: true }); }}>Let it go (don’t save)</Button>
+                <Button full onClick={() => { toast('Let go. Nothing saved.'); navigate(a.nextStep === 'ritual' ? '/rituals' : '/reflections', { replace: true }); }}>Let it go</Button>
+                <Button full variant="line" onClick={save}>Keep it in my reflections</Button>
               </div>
+              <p className="mt-3 text-center text-[13px] text-muted">Letting go means nothing is stored. That’s the point.</p>
               <button onClick={() => navigate('/support')} className="mt-8 flex w-full items-center justify-center gap-2 text-[13px] text-muted hover:text-ink"><LifeBuoy size={15} /> If it’s more than a vent, here’s where to find more support</button>
             </>
           )}

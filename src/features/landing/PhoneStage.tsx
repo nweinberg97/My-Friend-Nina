@@ -60,6 +60,7 @@ export function PhoneStage() {
   const [when, setWhen] = useState(0);
   const [seen, setSeen] = useState(false);
   const [time, setTime] = useState(() => new Date());
+  const [darkApp, setDarkApp] = useState(false);
   const inFrame = typeof window !== 'undefined' && window.self !== window.top;
 
   useEffect(() => {
@@ -72,6 +73,14 @@ export function PhoneStage() {
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 30_000);
+    return () => clearInterval(t);
+  }, []);
+
+  // Light status-bar text when the app is showing its dark Get It Out room
+  useEffect(() => {
+    const t = setInterval(() => {
+      try { setDarkApp(!!frame.current?.contentDocument?.documentElement.classList.contains('vent-mode')); } catch { /* cross-origin */ }
+    }, 400);
     return () => clearInterval(t);
   }, []);
 
@@ -202,7 +211,7 @@ export function PhoneStage() {
                 </div>
 
                 {/* status bar */}
-                <div className={cx('pointer-events-none absolute inset-x-0 top-0 flex h-[50px] items-center justify-between px-8 pt-1 text-[15px] font-semibold transition-colors', home ? 'text-white' : 'text-[#2A1E2C]')}>
+                <div className={cx('pointer-events-none absolute inset-x-0 top-0 flex h-[50px] items-center justify-between px-8 pt-1 text-[15px] font-semibold transition-colors', home || darkApp ? 'text-white' : 'text-[#2A1E2C]')}>
                   <span className="w-[54px] text-center">{hhmm}</span>
                   <span className="absolute left-1/2 top-[11px] h-[33px] w-[120px] -translate-x-1/2 rounded-full bg-black" />
                   <span className="flex items-center gap-1.5" aria-hidden="true">
@@ -282,7 +291,7 @@ export function PhoneStage() {
 
                 {/* home indicator: swipe up (tap) to go home */}
                 <button onClick={goHome} disabled={home} aria-label="Go to home screen" className="absolute bottom-0 left-1/2 flex h-6 w-[180px] -translate-x-1/2 items-end justify-center pb-2">
-                  <span className={cx('h-[5px] w-[134px] rounded-full', home ? 'bg-white/90' : 'bg-[#2A1E2C]/80')} />
+                  <span className={cx('h-[5px] w-[134px] rounded-full', home || darkApp ? 'bg-white/90' : 'bg-[#2A1E2C]/80')} />
                 </button>
               </div>
               <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[48px]" style={{ background: 'linear-gradient(118deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 32%)' }} />

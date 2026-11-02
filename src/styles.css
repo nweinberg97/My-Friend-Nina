@@ -146,25 +146,31 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* Little reminders look like real sticky notes: flat colour, a soft lift
-   at the bottom corner and a strip of tape. */
+/* Little reminders look like real sticky notes: flat paper held by the glue
+   strip along the top, so the top sits flush and the bottom edge lifts a little. */
 .postit {
   position: relative;
-  border-radius: 3px 3px 3px 3px / 3px 3px 3px 3px;
-  border-bottom-right-radius: 30px 10px;
-  box-shadow: 0 1px 1px rgba(42, 30, 44, 0.06), 6px 14px 18px -12px rgba(42, 30, 44, 0.35);
-  background-image: linear-gradient(160deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 45%);
+  border-radius: 2px;
+  border-bottom-right-radius: 26px 8px;
+  background-image:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.035) 0%, rgba(0, 0, 0, 0.035) 16%, rgba(0, 0, 0, 0) 16.5%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0.28) 100%);
+  box-shadow: 0 1px 1px rgba(42, 30, 44, 0.08), 0 14px 14px -12px rgba(42, 30, 44, 0.32), 8px 16px 16px -14px rgba(42, 30, 44, 0.3);
 }
-.postit::before {
-  content: '';
-  position: absolute;
-  top: -9px;
-  left: 50%;
-  width: 64px;
-  height: 20px;
-  transform: translateX(-50%) rotate(-3deg);
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 1px 2px rgba(42, 30, 44, 0.08);
+
+/* Get It Out has its own darker, quieter space so venting never looks like journaling */
+html.vent-mode {
+  --bg: #241A27;
+  --surface: #33263A;
+  --ink: #FFF3F6;
+  --muted: #CDB7C6;
+  --accent: #FF5C98;
+  --accent-ink: #FFFFFF;
+  --accent-text: #FF8DB8;
+  --soft: #46304A;
+  --line: #4A3A50;
+  --glow: #7A3366;
+  --glow-2: #3E2F6B;
 }
 
 /* subtle paper grain for editorial surfaces */

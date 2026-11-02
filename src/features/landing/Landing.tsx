@@ -165,7 +165,7 @@ export function Landing() {
             { n: '01', t: 'Check in', b: 'Tell it how you’re showing up: high energy, steady, low battery or rest. One tap.', icon: <StateIcon state="low" /> },
             { n: '02', t: 'Find your rhythm', b: 'The whole app shifts to match. Fewer asks on low days. A full exhale on rest days.', icon: <Wind /> },
             { n: '03', t: 'Pick your rituals', b: 'Every ritual comes in Full, Small or Tiny. They all count the same. Obviously.', icon: <Check /> },
-            { n: '04', t: 'Reflect when you want', b: 'Talk it out or type it, whichever’s easier today. Saved on your phone, not ours.', icon: <Mic /> },
+            { n: '04', t: 'Reflect when you want', b: 'Journal what’s worth keeping, or just get it out and let it go. Saved on your phone, not ours.', icon: <Mic /> },
           ].map((s) => (
             <div key={s.n} className="rounded-[24px] border border-[#F2DDE5] bg-studio p-6">
               <div className="flex items-center justify-between text-pink">{s.icon}<span className="font-serif text-[18px] text-[#D3B4C3]">{s.n}</span></div>

@@ -125,13 +125,13 @@ export const RETURN_LINES = [
 
 export const GET_IT_OUT = {
   name: 'Get It Out',
-  tagline: 'Vent first. Figure it out later (or don\'t).',
+  tagline: 'This is for venting. Messy is fine, and nothing is saved unless you want it to be.',
   open: "Okay, what's taking up space in your head right now?",
   express: 'Go on. Get it out. No need to make it sound pretty.',
   pause: "Okay. Take a second. What's the main thing you're noticing right now?",
   pauseHint: 'A feeling, a word, where it sits in your body. Totally optional.',
   choose: "What's one little thing that might make the next hour feel a bit easier?",
-  finish: "That's enough for now. You don't need to solve the entire thing today.",
+  finish: "That's out of your head now. You don't need to solve the whole thing today.",
   options: [
     { id: 'ritual', label: 'Do one tiny ritual' },
     { id: 'break', label: 'Take a proper break' },

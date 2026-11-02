@@ -180,14 +180,19 @@ export function Today() {
               </section>
             )}
 
-            {/* Quick reflection */}
+            {/* Quick reflection: keep it, or let it out */}
             <section aria-labelledby="ref-h" className="mt-8">
               <h2 id="ref-h" className="font-serif text-[24px]">Anything on your mind?</h2>
-              <div className="mt-3 flex gap-2">
-                <Link to="/reflections/new/voice" className="flex min-h-14 flex-1 items-center justify-center gap-2 rounded-[16px] bg-accent text-[15px] font-medium text-accent-ink shadow-[0_8px_20px_-12px_var(--accent)]"><Mic size={20} /> Talk</Link>
-                <Link to="/reflections/new/write" className="flex min-h-14 flex-1 items-center justify-center gap-2 rounded-[16px] border border-line bg-surface text-[15px] font-medium hover:border-accent"><Pen size={20} /> Type</Link>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <Link to="/reflections/new/write" className="flex min-h-[112px] flex-col justify-between rounded-[18px] bg-surface p-4 ring-1 ring-line hover:ring-accent">
+                  <Pen size={20} className="text-accent-text" />
+                  <span><span className="block text-[16px] font-medium">Journal it</span><span className="block text-[13px] leading-snug text-muted">Talk or type. Keep it for later.</span></span>
+                </Link>
+                <Link to="/reflections/new/get-it-out" className="flex min-h-[112px] flex-col justify-between rounded-[18px] bg-[#241A27] p-4 text-[#FFF3F6]">
+                  <Wind size={20} />
+                  <span><span className="block text-[16px] font-medium">Get it out</span><span className="block text-[13px] leading-snug text-[#CDB7C6]">Just vent. Then let it go.</span></span>
+                </Link>
               </div>
-              <Link to="/reflections/new/get-it-out" className="mt-2 flex min-h-11 items-center gap-2 text-[14px] text-accent-text"><Wind size={17} /> Head too loud? Get it out instead</Link>
             </section>
 
             {/* gentle week */}
