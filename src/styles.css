@@ -150,6 +150,9 @@ body {
    strip along the top, so the top sits flush and the bottom edge lifts a little. */
 .postit {
   position: relative;
+  /* sticky notes take their colour from the current energy mode */
+  background-color: var(--soft);
+  color: var(--ink);
   border-radius: 2px;
   border-bottom-right-radius: 26px 8px;
   background-image:
@@ -157,6 +160,9 @@ body {
     linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0.28) 100%);
   box-shadow: 0 1px 1px rgba(42, 30, 44, 0.08), 0 14px 14px -12px rgba(42, 30, 44, 0.32), 8px 16px 16px -14px rgba(42, 30, 44, 0.3);
 }
+
+.postit-alt { background-color: color-mix(in srgb, var(--soft) 50%, var(--surface)); }
+.postit .postit-title { color: var(--accent-text); }
 
 /* Get It Out has its own darker, quieter space so venting never looks like journaling */
 html.vent-mode {

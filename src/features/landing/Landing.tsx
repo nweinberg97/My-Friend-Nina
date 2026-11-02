@@ -188,8 +188,8 @@ export function Landing() {
           </div>
           <div className="no-scrollbar -mx-5 mt-10 flex snap-x gap-5 overflow-x-auto px-5 pt-4 pb-8 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
             {REMINDERS.slice(0, 4).map((r, i) => (
-              <article key={r.theme} className={cx('postit flex min-h-[260px] w-[260px] shrink-0 snap-start flex-col justify-between p-6 lg:w-auto', i % 2 ? 'rotate-[1.5deg] lg:translate-y-6' : '-rotate-[1.5deg]')} style={{ backgroundColor: r.tint, color: r.ink }}>
-                <h3 className="font-serif text-[28px] leading-[1.1]">{r.title}</h3>
+              <article key={r.theme} className={cx(i % 2 && 'postit-alt', 'postit flex min-h-[260px] w-[260px] shrink-0 snap-start flex-col justify-between p-6 lg:w-auto', i % 2 ? 'rotate-[1.5deg] lg:translate-y-6' : '-rotate-[1.5deg]')}>
+                <h3 className="postit-title font-serif text-[28px] leading-[1.1]">{r.title}</h3>
                 <div>
                   <p className="text-[15px] leading-relaxed opacity-90">{r.body}</p>
                   <p className="mt-3 text-right font-hand text-[22px]">— Nina</p>
