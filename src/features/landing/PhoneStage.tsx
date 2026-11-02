@@ -97,13 +97,13 @@ export function PhoneStage() {
     return () => clearTimeout(t);
   }, [screen, perm]);
 
-  // After a yes: confirm, then back to the home screen to show the next nudge.
+  // After a yes: confirm, then leave you in the app. The next nudge arrives
+  // whenever you go back to the home screen yourself.
   useEffect(() => {
     if (perm !== 'confirmed') return;
     const t = window.setTimeout(() => {
       setPerm('allowed');
       setNext(WHEN[when].first + 1);
-      setScreen('home');
     }, 2600);
     return () => clearTimeout(t);
   }, [perm, when]);
@@ -297,7 +297,7 @@ export function PhoneStage() {
         <button onClick={() => { setPerm('pending'); setNext(0); setBanner(null); setSrc(`./?embed=1&r=${Date.now()}#${prefs.onboarded ? '/today' : '/welcome'}`); setScreen('home'); }} className="min-h-11 text-pink-deep underline decoration-pink/40 underline-offset-4">Start over</button>
       </div>
       <p className="max-w-sm text-center text-[13px] text-[#6E5F6C]">
-        {perm === 'denied' || perm === 'later' ? 'No notifications, no problem. Nina’s still here whenever you open the app, and you can turn nudges on later in Settings.' : 'It’s the real prototype, tap anything. Swipe up (or tap the bar at the bottom) to go home. Notifications are simulated here.'}
+        {perm === 'denied' || perm === 'later' ? 'No notifications, no problem. Nina’s still here whenever you open the app, and you can turn nudges on later in Settings.' : perm === 'allowed' && !home ? 'Nudges are on. Keep exploring, then tap the bar at the bottom to go home and see the next one arrive.' : 'It’s the real prototype, tap anything. Swipe up (or tap the bar at the bottom) to go home. Notifications are simulated here.'}
       </p>
     </div>
   );
