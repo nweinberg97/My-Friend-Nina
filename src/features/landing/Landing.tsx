@@ -28,10 +28,25 @@ const PREVIEW: Record<EnergyState, { note: string; rituals: [string, string][]; 
 function MiniToday({ state }: { state: EnergyState }) {
   const p = PREVIEW[state];
   return (
-    <div data-mood={state} className="mood-surface relative mx-auto h-[540px] w-[280px] overflow-hidden rounded-[42px] border-[8px] border-[#0A0A0C] bg-bg text-ink shadow-[0_0_0_3px_#CFC3C8,0_30px_60px_-25px_rgba(42,30,44,.5)]">
+    // Same hardware as the live iPhone up top: titanium rim, black bezel, Dynamic Island, real status bar
+    <div className="relative mx-auto w-[292px] rounded-[48px] p-[3px] shadow-[0_40px_70px_-30px_rgba(42,30,44,.6),0_14px_24px_-14px_rgba(42,30,44,.4)]" style={{ background: 'linear-gradient(140deg,#F4E9EC 0%,#B9AEB2 22%,#FBF5F6 46%,#A69A9F 70%,#E7DCE0 100%)' }}>
+      <span aria-hidden="true" className="absolute top-[96px] -left-[3px] h-[24px] w-[3px] rounded-l-[2px]" style={{ background: 'linear-gradient(90deg,#9E9297,#E3D8DC)' }} />
+      <span aria-hidden="true" className="absolute top-[138px] -left-[3px] h-[46px] w-[3px] rounded-l-[2px]" style={{ background: 'linear-gradient(90deg,#9E9297,#E3D8DC)' }} />
+      <span aria-hidden="true" className="absolute top-[194px] -left-[3px] h-[46px] w-[3px] rounded-l-[2px]" style={{ background: 'linear-gradient(90deg,#9E9297,#E3D8DC)' }} />
+      <span aria-hidden="true" className="absolute top-[160px] -right-[3px] h-[74px] w-[3px] rounded-r-[2px]" style={{ background: 'linear-gradient(270deg,#9E9297,#E3D8DC)' }} />
+      <div className="rounded-[45px] bg-[#0A0A0C] p-[7px] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.08)]">
+    <div data-mood={state} className="mood-surface relative h-[560px] overflow-hidden rounded-[38px] bg-bg text-ink">
       <div className="absolute -top-10 -right-10 size-44 rounded-full bg-glow opacity-90 blur-2xl" />
       <div className="absolute top-32 -left-14 size-36 rounded-full bg-glow-2 opacity-80 blur-2xl" />
-      <div className="relative px-5 pt-9">
+      <div aria-hidden="true" className="relative z-10 flex h-[38px] items-center justify-between px-6 pt-0.5 text-[12px] font-semibold text-[#2A1E2C]">
+        <span className="w-[40px] text-center">9:41</span>
+        <span className="absolute left-1/2 top-[9px] h-[24px] w-[84px] -translate-x-1/2 rounded-full bg-black" />
+        <span className="flex items-center gap-1">
+          <svg width="14" height="9" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor" /><rect x="5" y="5" width="3" height="7" rx="1" fill="currentColor" /><rect x="10" y="2" width="3" height="10" rx="1" fill="currentColor" /><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor" /></svg>
+          <svg width="20" height="9" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5" /><rect x="2" y="2" width="16" height="8" rx="2" fill="currentColor" /><rect x="23.5" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".5" /></svg>
+        </span>
+      </div>
+      <div className="relative px-5 pt-3">
         <p className="text-[10px] font-medium tracking-[0.14em] text-muted uppercase">Saturday, November 1</p>
         <p className="mt-1 font-serif text-[24px] leading-tight">Okay, how are we actually doing?</p>
         <div className="mt-3 grid grid-cols-4 gap-1">
@@ -61,6 +76,10 @@ function MiniToday({ state }: { state: EnergyState }) {
             </div>
           )}
         </div>
+      </div>
+      <span aria-hidden="true" className="absolute bottom-2 left-1/2 h-[4px] w-[96px] -translate-x-1/2 rounded-full bg-[#2A1E2C]/80" />
+      <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[38px]" style={{ background: 'linear-gradient(118deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 32%)' }} />
+    </div>
       </div>
     </div>
   );
