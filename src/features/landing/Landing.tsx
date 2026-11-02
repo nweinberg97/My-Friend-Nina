@@ -255,7 +255,7 @@ export function Landing() {
       <footer className="bg-oat">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 text-[14px] text-[#5E4F5C] md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="flex items-center gap-2.5 font-serif text-[22px] italic text-espresso"><img src="nina-n.svg" alt="" className="size-8 rounded-[9px]" />my friend <span className="text-pink">nina</span></p>
+            <p className="flex items-center gap-2.5 font-serif text-[22px] italic text-espresso"><img src="nina-n.svg" alt="" className="size-8 rounded-[9px]" /><span>my friend <span className="text-pink">nina</span></span></p>
             <p className="mt-2 max-w-sm">Nina is here as a friend: real encouragement for everyday life, not professional care. Nothing here replaces medical or mental-health advice. Everything you save stays on your device.</p>
           </div>
           <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
