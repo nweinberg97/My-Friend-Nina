@@ -56,16 +56,16 @@ export function Onboarding() {
         <span className="w-11" />
       </div>
 
-      <div key={step} className="anim-rise relative flex flex-1 flex-col pt-6 pb-8">
+      <div key={step} className="anim-rise relative flex flex-1 flex-col pt-4 pb-4">
         {step === 0 && (
           <>
-            <div className="relative mx-auto mt-2 w-full max-w-[300px]">
+            <div className="relative mx-auto mt-1 w-full max-w-[250px]">
               <img src="images/overlook.jpg" alt="Nina on a lookout above the ocean" className="aspect-[4/5] w-full rounded-[28px] object-cover shadow-xl" />
               <span className="absolute -bottom-4 left-4 rotate-[-3deg] rounded-[12px] bg-surface px-3 py-1.5 font-hand text-[24px] text-accent-text shadow">hi friend!</span>
             </div>
-            <h1 className="mt-10 font-serif text-[40px] leading-[1.05]">{NINA_INTRO.hello}<br />{NINA_INTRO.welcome}</h1>
+            <h1 className="mt-9 font-serif text-[36px] leading-[1.05]">{NINA_INTRO.hello}<br />{NINA_INTRO.welcome}</h1>
             <p className="mt-4 text-[17px] leading-relaxed text-muted">{NINA_INTRO.body}</p>
-            <div className="mt-auto pt-8"><Button full onClick={next}>Let’s go</Button></div>
+            <div className="sticky bottom-0 mt-auto -mx-5 bg-gradient-to-t from-bg from-60% to-transparent px-5 pt-8 pb-2"><Button full onClick={next}>Let’s go</Button></div>
           </>
         )}
 
@@ -85,7 +85,7 @@ export function Onboarding() {
               ))}
             </ul>
             <p className="mt-8 rounded-[14px] bg-soft/60 px-4 py-3 text-[13px] leading-relaxed text-muted">Just so you know: I’m here to cheer you on, not to replace professional help. This is a lifestyle app, not medical or mental-health advice.</p>
-            <div className="mt-auto pt-8"><Button full onClick={next}>Sounds good</Button></div>
+            <div className="sticky bottom-0 mt-auto -mx-5 bg-gradient-to-t from-bg from-60% to-transparent px-5 pt-8 pb-2"><Button full onClick={next}>Sounds good</Button></div>
           </>
         )}
 
@@ -135,7 +135,7 @@ export function Onboarding() {
                 </div>
               ))}
             </div>
-            <div className="mt-auto pt-8"><Button full onClick={next}>{picked.length ? `Keep these ${picked.length}` : 'Skip for now'}</Button></div>
+            <div className="sticky bottom-0 mt-auto -mx-5 bg-gradient-to-t from-bg from-60% to-transparent px-5 pt-8 pb-2"><Button full onClick={next}>{picked.length ? `Keep these ${picked.length}` : 'Skip for now'}</Button></div>
           </>
         )}
 
@@ -152,7 +152,7 @@ export function Onboarding() {
               <input type="checkbox" checked={privacy} onChange={(e) => setPrivacy(e.target.checked)} className="mt-0.5 size-5 accent-[var(--accent)]" />
               <span className="text-[15px]">Got it. Save my check-ins, rituals and reflections on this device.</span>
             </label>
-            <div className="mt-auto pt-8"><Button full disabled={!privacy} onClick={next}>Continue</Button></div>
+            <div className="sticky bottom-0 mt-auto -mx-5 bg-gradient-to-t from-bg from-60% to-transparent px-5 pt-8 pb-2"><Button full disabled={!privacy} onClick={next}>Continue</Button></div>
           </>
         )}
 

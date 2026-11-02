@@ -68,8 +68,10 @@ const TABS = [
 export function BottomNav({ path }: { path: string }) {
   return (
     <nav aria-label="Main" className="safe-bottom fixed inset-x-0 bottom-0 z-30">
-      <div className="mx-auto max-w-[560px] px-4 pb-3">
-        <div className="mood-surface flex rounded-[22px] border border-line bg-surface/92 p-1.5 shadow-[0_10px_30px_-12px_rgba(42,30,44,.25)] backdrop-blur-md">
+      {/* frosted band behind the floating bar so text scrolling underneath never shows through around it */}
+      <div aria-hidden="true" className="nav-frost pointer-events-none absolute inset-x-0 bottom-0 h-[118px]" />
+      <div className="relative mx-auto max-w-[560px] px-4 pb-3">
+        <div className="mood-surface flex rounded-[22px] border border-line bg-surface/95 p-1.5 shadow-[0_10px_30px_-12px_rgba(42,30,44,.25)] backdrop-blur-md">
           {TABS.map(({ to, label, Icon }) => {
             const active = path.startsWith(to);
             return (
