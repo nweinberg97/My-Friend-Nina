@@ -46,7 +46,7 @@ export function App() {
   });
   useEffect(() => {
     if (splash === 'off') return;
-    const t = window.setTimeout(() => setSplash(splash === 'on' ? 'leaving' : 'off'), splash === 'on' ? 1600 : 450);
+    const t = window.setTimeout(() => setSplash(splash === 'on' ? 'leaving' : 'off'), splash === 'on' ? 2100 : 450);
     return () => clearTimeout(t);
   }, [splash]);
 
