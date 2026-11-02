@@ -191,7 +191,7 @@ export function PhoneStage() {
                           <img src="icon.svg" alt="" className="size-[62px] rounded-[15px] shadow-[0_4px_10px_-4px_rgba(0,0,0,.3)]" />
                           {perm === 'allowed' && <span className="absolute -top-1.5 -right-1.5 grid size-[22px] place-items-center rounded-full bg-[#FF3B30] text-[12px] font-semibold text-white">1</span>}
                         </span>
-                        <span className="text-[12px] font-medium text-white [text-shadow:0_1px_3px_rgba(0,0,0,.25)]">Nina</span>
+                        <span className="text-[12px] font-medium text-white [text-shadow:0_1px_3px_rgba(0,0,0,.25)]">MFN</span>
                       </button>
                     </div>
                   </div>
