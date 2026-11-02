@@ -12,11 +12,11 @@ const PHONE_H = 844;
 
 // [DRAFT — NINA TO APPROVE]
 const NOTIFICATIONS = [
-  { when: 'now', body: 'Morning! How are we showing up today? One tap, that’s it.', to: '/today' },
-  { when: 'now', body: 'Low battery kind of day? Tiny counts. One glass of water, done.', to: '/rituals' },
-  { when: 'now', body: 'Long day? Want to get it out? I’m listening.', to: '/reflections/new/get-it-out' },
-  { when: 'now', body: 'Friendly reminder: rest days count too. No catch-up homework.', to: '/today' },
-  { when: 'now', body: 'Evening check-in. How did today treat you? No wrong answers.', to: '/today' },
+  { when: 'now', body: 'Morning. Before the day runs off with you, how are you actually feeling?', to: '/today' },
+  { when: 'now', body: 'Busy one? Pick the small version of one thing today. It still counts.', to: '/rituals' },
+  { when: 'now', body: 'Long day? If your head feels full, I’m here. No fixing required.', to: '/reflections/new/get-it-out' },
+  { when: 'now', body: 'Rest days are part of the plan. Nothing to catch up on tomorrow.', to: '/today' },
+  { when: 'now', body: 'Evening check-in. What’s one thing that went okay today?', to: '/reflections/new/write' },
 ];
 
 type Perm = 'pending' | 'soft' | 'when' | 'asking' | 'confirmed' | 'allowed' | 'later' | 'denied';
