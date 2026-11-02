@@ -35,7 +35,7 @@ export function Splash({ leaving = false }: { leaving?: boolean }) {
         <p className="splash-tag mt-4 font-hand text-[27px] leading-none text-white/90">meet yourself where you are</p>
       </div>
 
-      <p className="splash-tag absolute inset-x-0 bottom-12 text-center text-[12px] font-medium tracking-[0.24em] text-white/75 uppercase" style={{ animationDelay: '600ms' }}>Vancouver · made with love</p>
+      <p className="splash-tag absolute inset-x-0 bottom-12 text-center text-[12px] font-medium tracking-[0.24em] text-white/75 uppercase" style={{ animationDelay: '600ms' }}>made with love :)</p>
     </div>
   );
 }
