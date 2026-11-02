@@ -1,0 +1,10 @@
+{
+  "name": "My Friend Nina",
+  "short_name": "MFN",
+  "description": "A little space to check in, find your rhythm, and take care of yourself.",
+  "start_url": "./#/today",
+  "display": "standalone",
+  "background_color": "#FFF5F3",
+  "theme_color": "#FFF5F3",
+  "icons": [{ "src": "nina-n.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }, { "src": "nina-n-512.png", "sizes": "512x512", "type": "image/png" }, { "src": "nina-n-180.png", "sizes": "180x180", "type": "image/png" }]
+}
