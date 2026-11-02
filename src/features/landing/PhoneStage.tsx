@@ -188,7 +188,7 @@ export function PhoneStage() {
                       <Tile bg="linear-gradient(160deg,#B79CF5,#7A57D1)" label="Fitness">{g('M3 12h4l3-7 4 14 3-7h4')}</Tile>
                       <button onClick={() => open(null, '87% 42%')} tabIndex={home ? 0 : -1} aria-label="Open My Friend Nina" className="flex flex-col items-center gap-1.5">
                         <span className="relative">
-                          <img src="icon.svg?v=5" alt="" className="size-[62px] rounded-[15px] shadow-[0_4px_10px_-4px_rgba(0,0,0,.3)]" />
+                          <img src="nina-n.svg" alt="" className="size-[62px] rounded-[15px] shadow-[0_4px_10px_-4px_rgba(0,0,0,.3)]" />
                           {perm === 'allowed' && <span className="absolute -top-1.5 -right-1.5 grid size-[22px] place-items-center rounded-full bg-[#FF3B30] text-[12px] font-semibold text-white">1</span>}
                         </span>
                         <span className="text-[12px] font-medium text-white [text-shadow:0_1px_3px_rgba(0,0,0,.25)]">MFN</span>
@@ -226,7 +226,7 @@ export function PhoneStage() {
                     onClick={() => { setNext(banner + 1); open(NOTIFICATIONS[banner].to, '50% 9%'); }}
                     className="anim-banner absolute top-[54px] right-3 left-3 flex items-start gap-3 rounded-[24px] bg-white/75 p-3.5 text-left shadow-[0_14px_34px_-12px_rgba(0,0,0,.45)] backdrop-blur-2xl"
                   >
-                    <img src="icon.svg?v=5" alt="" className="size-[40px] rounded-[10px]" />
+                    <img src="nina-n.svg" alt="" className="size-[40px] rounded-[10px]" />
                     <span className="min-w-0 flex-1">
                       <span className="flex justify-between text-[15px]"><span className="font-semibold text-[#111]">My Friend Nina</span><span className="text-[13px] text-[#6b6b6b]">{NOTIFICATIONS[banner].when}</span></span>
                       <span className="block text-[15px] leading-snug text-[#111]">{NOTIFICATIONS[banner].body}</span>
