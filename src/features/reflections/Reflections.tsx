@@ -71,21 +71,30 @@ export function Reflections() {
         <header className="pt-6">
           <Eyebrow>Your collection</Eyebrow>
           <h1 className="mt-2 font-serif text-[40px] leading-[1.05]">Reflections</h1>
-          <p className="mt-2 text-[15px] text-muted">Voice notes, quick writes and little notes to you. All on this device.</p>
+          <p className="mt-2 text-[15px] text-muted">Everything you’ve said, written and noticed. All on this device.</p>
         </header>
 
-        <section aria-label="Start a reflection" className="mt-6 grid grid-cols-2 gap-2">
-          {[
-            { to: '/reflections/new/voice', label: 'Voice note', sub: 'Say it out loud', Icon: Mic, big: true },
-            { to: '/reflections/new/write', label: 'Write something', sub: 'A line or a page', Icon: Pen, big: true },
-            { to: '/reflections/new/get-it-out', label: GET_IT_OUT.name, sub: 'Vent, then one small thing', Icon: Wind },
-            { to: '/reflections/new/note', label: NOTE_TO_ME.name, sub: 'Go easy on you', Icon: Heart },
-          ].map(({ to, label, sub, Icon, big }) => (
-            <Link key={to} to={to} className={cx('flex flex-col justify-between rounded-[20px] border p-4 transition hover:border-accent', big ? 'min-h-[120px] border-transparent bg-soft/80' : 'min-h-[112px] border-line bg-surface')}>
-              <Icon size={22} className="text-accent-text" />
-              <span><span className="block text-[16px] font-medium leading-tight">{label}</span><span className="block text-[13px] text-muted">{sub}</span></span>
-            </Link>
-          ))}
+        <section aria-label="Start a reflection" className="mt-6 flex flex-col gap-2">
+          <div className="relative overflow-hidden rounded-[24px] bg-accent p-5 text-accent-ink">
+            <div aria-hidden="true" className="absolute -top-16 -right-10 size-48 rounded-full bg-white/15 blur-2xl" />
+            <p className="relative font-serif text-[26px] leading-tight">Reflect</p>
+            <p className="relative mt-1 text-[14px] opacity-90">What’s on your mind today. Say it or type it, a line or a page.</p>
+            <div className="relative mt-4 grid grid-cols-2 gap-2">
+              <Link to="/reflections/new/voice" className="flex min-h-12 items-center justify-center gap-2 rounded-[14px] bg-white text-[15px] font-medium text-accent-text shadow-sm"><Mic size={18} /> Talk</Link>
+              <Link to="/reflections/new/write" className="flex min-h-12 items-center justify-center gap-2 rounded-[14px] bg-white/20 text-[15px] font-medium ring-1 ring-white/50"><Pen size={18} /> Type</Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { to: '/reflections/new/get-it-out', label: GET_IT_OUT.name, sub: 'When your head’s too loud. Vent, then one small thing.', Icon: Wind },
+              { to: '/reflections/new/note', label: NOTE_TO_ME.name, sub: 'When you’re being hard on yourself.', Icon: Heart },
+            ].map(({ to, label, sub, Icon }) => (
+              <Link key={to} to={to} className="flex min-h-[132px] flex-col justify-between rounded-[20px] border border-line bg-surface p-4 transition hover:border-accent">
+                <Icon size={22} className="text-accent-text" />
+                <span><span className="block text-[16px] font-medium leading-tight">{label}</span><span className="mt-0.5 block text-[13px] leading-snug text-muted">{sub}</span></span>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <Link to={`/reflections/new/write?prompt=${encodeURIComponent(prompt)}`} className="mt-3 block rounded-[18px] border border-dashed border-line px-4 py-3 hover:border-accent">
@@ -132,7 +141,7 @@ export function Reflections() {
             <h2 id="notes-h" className="font-serif text-[22px]">Notes to me</h2>
             <div className="no-scrollbar -mx-5 mt-3 flex gap-3 overflow-x-auto px-5 pb-1">
               {[...pinnedNotes, ...otherNotes].map((n) => (
-                <Link key={n.id} to={`/reflections/note/${n.id}`} className="paper relative w-[240px] shrink-0 rotate-[-.6deg] rounded-[18px] bg-[#FFF8E8] p-4 text-[#3A302B] shadow-[0_8px_20px_-14px_rgba(0,0,0,.4)] odd:rotate-[.8deg]">
+                <Link key={n.id} to={`/reflections/note/${n.id}`} className="paper relative w-[240px] shrink-0 rotate-[-.6deg] rounded-[18px] bg-[#FFF8E8] p-4 text-[#3A2A36] shadow-[0_8px_20px_-14px_rgba(0,0,0,.4)] odd:rotate-[.8deg]">
                   {n.pinned && <Pin size={15} className="absolute top-3 right-3 text-[#C4004E]" aria-label="Pinned" />}
                   <p className="font-hand text-[22px] leading-snug">“{n.forward || n.friendSays}”</p>
                   <p className="mt-2 text-[12px] opacity-70">{relativeDay(n.createdAt.slice(0, 10), today)}</p>

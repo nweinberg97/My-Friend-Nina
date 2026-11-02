@@ -17,8 +17,9 @@ const PREVIEW: Record<EnergyState, { note: string; rituals: [string, string][]; 
 function MiniToday({ state }: { state: EnergyState }) {
   const p = PREVIEW[state];
   return (
-    <div data-mood={state} className="mood-surface relative mx-auto h-[540px] w-[280px] overflow-hidden rounded-[42px] border-[8px] border-[#1e1a19] bg-bg text-ink shadow-[0_30px_60px_-25px_rgba(43,38,37,.45)]">
-      <div className="absolute -top-10 -right-10 size-40 rounded-full bg-glow opacity-70 blur-2xl" />
+    <div data-mood={state} className="mood-surface relative mx-auto h-[540px] w-[280px] overflow-hidden rounded-[42px] border-[8px] border-[#0A0A0C] bg-bg text-ink shadow-[0_0_0_3px_#CFC3C8,0_30px_60px_-25px_rgba(42,30,44,.5)]">
+      <div className="absolute -top-10 -right-10 size-44 rounded-full bg-glow opacity-90 blur-2xl" />
+      <div className="absolute top-32 -left-14 size-36 rounded-full bg-glow-2 opacity-80 blur-2xl" />
       <div className="relative px-5 pt-9">
         <p className="text-[10px] font-medium tracking-[0.14em] text-muted uppercase">Saturday, November 1</p>
         <p className="mt-1 font-serif text-[24px] leading-tight">Okay, how are we actually doing?</p>
@@ -55,10 +56,9 @@ function MiniToday({ state }: { state: EnergyState }) {
 }
 
 export function Landing() {
-  const { prefs, loadDemo } = useApp();
+  const { prefs } = useApp();
   const [preview, setPreview] = useState<EnergyState>('high');
   const enter = () => navigate(prefs.onboarded ? '/today' : '/welcome');
-  const demo = async () => { await loadDemo(); navigate('/today'); };
 
   return (
     <div data-mood="high" className="min-h-dvh bg-oat text-espresso">
@@ -69,7 +69,7 @@ export function Landing() {
           <nav className="flex items-center gap-1 text-[14px]">
             <a href="#how" onClick={(e) => { e.preventDefault(); document.getElementById('how')?.scrollIntoView({ behavior: 'smooth' }); }} className="hidden rounded-full px-3 py-2 hover:bg-blush sm:block">How it works</a>
             <a href="#nina" onClick={(e) => { e.preventDefault(); document.getElementById('nina')?.scrollIntoView({ behavior: 'smooth' }); }} className="hidden rounded-full px-3 py-2 hover:bg-blush sm:block">About Nina</a>
-            <button onClick={enter} className="ml-1 min-h-11 rounded-full bg-espresso px-4 font-medium text-oat hover:bg-black">Open the app</button>
+            <button onClick={enter} className="ml-1 min-h-11 rounded-full bg-espresso px-5 font-semibold text-white shadow-[0_8px_18px_-10px_rgba(42,30,44,.7)] hover:bg-black">Open the app</button>
           </nav>
         </div>
       </header>
@@ -79,22 +79,23 @@ export function Landing() {
         <div className="anim-drift absolute -top-32 right-[-10%] size-[460px] rounded-full bg-blush opacity-80 blur-3xl" aria-hidden="true" />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 pt-6 pb-16 md:grid-cols-[1.1fr_.9fr] md:pt-14 md:pb-24">
           <div className="anim-rise">
-            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E6761] uppercase">A daily companion · Vancouver</p>
+            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">A daily companion · Vancouver</p>
             <h1 className="mt-4 font-serif text-[48px] leading-[1.02] sm:text-[64px] md:text-[78px]">
               Hey. Let’s make today a little more <em className="text-pink">yours.</em>
             </h1>
-            <p className="mt-5 max-w-md text-[17px] leading-relaxed text-[#5A524D]">
+            <p className="mt-5 max-w-md text-[17px] leading-relaxed text-[#5E4F5C]">
               A little space to check in, find your rhythm, and take care of yourself. Whatever kind of day you’re having.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button onClick={enter} className="min-h-14 px-7 text-[16px]">Come on in <Arrow size={18} /></Button>
-              <Button variant="soft" onClick={() => document.getElementById('try')?.scrollIntoView({ behavior: 'smooth' })} className="min-h-14 px-7 text-[16px]">Try it on a phone</Button>
-              <Button variant="line" onClick={() => document.getElementById('nina')?.scrollIntoView({ behavior: 'smooth' })} className="min-h-14 px-7 text-[16px]">Get to know us</Button>
+            <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <button onClick={enter} className="group inline-flex min-h-[60px] items-center gap-3 rounded-full bg-pink py-2 pr-2 pl-8 text-[17px] font-semibold text-white shadow-[0_18px_36px_-14px_rgba(230,0,92,.75)] transition hover:-translate-y-0.5 hover:bg-pink-deep active:translate-y-0">
+                Come on in
+                <span className="grid size-11 place-items-center rounded-full bg-white text-pink transition group-hover:translate-x-0.5"><Arrow size={18} /></span>
+              </button>
+              <a href="#nina" onClick={(e) => { e.preventDefault(); document.getElementById('nina')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex min-h-11 items-center text-[16px] font-medium text-espresso underline decoration-pink decoration-2 underline-offset-[6px] hover:text-pink-deep">Meet Nina first</a>
             </div>
-            <button onClick={demo} className="mt-4 text-[14px] text-[#6E6761] underline decoration-pink/40 underline-offset-4 hover:text-espresso">or look around with three weeks of sample data</button>
           </div>
           <div className="relative mx-auto w-full max-w-[420px]">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] shadow-[0_40px_80px_-40px_rgba(43,38,37,.55)]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] shadow-[0_40px_80px_-40px_rgba(42,30,44,.55)]">
               <img src="images/seawall.jpg" alt="Nina laughing mid-run on the Vancouver seawall on a sunny day" className="h-full w-full object-cover" />
             </div>
             <div className="absolute -bottom-5 -left-4 rotate-[-4deg] rounded-[16px] bg-studio px-4 py-3 shadow-lg sm:-left-10">
@@ -109,12 +110,12 @@ export function Landing() {
       <section id="try" className="relative overflow-hidden bg-blush/60">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:grid-cols-[1fr_1fr]">
           <div>
-            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E6761] uppercase">Try it right here</p>
-            <h2 className="mt-3 font-serif text-[40px] leading-tight sm:text-[52px]">The real prototype, in a real-size phone.</h2>
-            <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[#5A524D]">Check in, change your energy and watch the whole app shift, finish a tiny ritual, or record a voice note. Give it a few seconds and Nina will ask if she can send you the odd gentle nudge. Say yes to see what those look like.</p>
-            <ul className="mt-6 space-y-2 text-[15px] text-[#5A524D]">
-              <li>• Tap a notification to jump straight to where it points.</li>
-              <li>• “Load sample data” fills it with three weeks of a made-up user’s history.</li>
+            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">Try it right here</p>
+            <h2 className="mt-3 font-serif text-[40px] leading-tight sm:text-[52px]">See how it fits into your day.</h2>
+            <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[#5E4F5C]">It starts like a normal day on your phone. A nudge from Nina pops up; tap it and you land right where it points. From there it’s the real prototype: check in, watch the whole app shift with your energy, finish a tiny ritual, or talk something out.</p>
+            <ul className="mt-6 space-y-2 text-[15px] text-[#5E4F5C]">
+              <li>• Nina asks before she sends anything, in her own words first.</li>
+              <li>• Swipe up (tap the bar at the bottom) to go back to the home screen.</li>
               <li>• Everything stays in this browser. Nothing is sent anywhere.</li>
             </ul>
           </div>
@@ -130,7 +131,7 @@ export function Landing() {
             <p className="absolute -right-3 -bottom-4 rotate-3 rounded-[12px] bg-oat px-3 py-2 font-hand text-[22px]">out on the water</p>
           </div>
           <div>
-            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E6761] uppercase">The whole idea</p>
+            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">The whole idea</p>
             <ol className="mt-6 space-y-8">
               {[
                 ['Meet yourself where you are.', "Some days you’re ready to take on the world. Some days getting through it is plenty. Both are allowed here."],
@@ -141,7 +142,7 @@ export function Landing() {
                   <span className="font-serif text-[40px] leading-none text-pink">{i + 1}</span>
                   <div>
                     <h2 className="font-serif text-[30px] leading-tight sm:text-[36px]">{h}</h2>
-                    <p className="mt-2 max-w-lg text-[16px] leading-relaxed text-[#5A524D]">{b}</p>
+                    <p className="mt-2 max-w-lg text-[16px] leading-relaxed text-[#5E4F5C]">{b}</p>
                   </div>
                 </li>
               ))}
@@ -152,19 +153,19 @@ export function Landing() {
 
       {/* how it works */}
       <section id="how" className="mx-auto max-w-6xl px-5 py-20">
-        <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E6761] uppercase">How it works</p>
+        <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">How it works</p>
         <h2 className="mt-3 max-w-2xl font-serif text-[40px] leading-tight sm:text-[52px]">Thirty seconds on a busy day. Longer if you feel like it.</h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { n: '01', t: 'Check in', b: 'Tell it how you’re showing up: high energy, steady, low battery or rest. One tap.', icon: <StateIcon state="low" /> },
             { n: '02', t: 'Find your rhythm', b: 'The whole app shifts to match. Fewer asks on low days. A full exhale on rest days.', icon: <Wind /> },
             { n: '03', t: 'Pick your rituals', b: 'Every ritual comes in Full, Small or Tiny. They all count the same. Obviously.', icon: <Check /> },
-            { n: '04', t: 'Reflect when you want', b: 'Voice notes, quick writes, or a “get it out” vent. Saved on your phone, not ours.', icon: <Mic /> },
+            { n: '04', t: 'Reflect when you want', b: 'Talk it out or type it, whichever’s easier today. Saved on your phone, not ours.', icon: <Mic /> },
           ].map((s) => (
-            <div key={s.n} className="rounded-[24px] border border-[#E8E0D8] bg-studio p-6">
-              <div className="flex items-center justify-between text-pink">{s.icon}<span className="font-serif text-[18px] text-[#B5ACA4]">{s.n}</span></div>
+            <div key={s.n} className="rounded-[24px] border border-[#F2DDE5] bg-studio p-6">
+              <div className="flex items-center justify-between text-pink">{s.icon}<span className="font-serif text-[18px] text-[#D3B4C3]">{s.n}</span></div>
               <h3 className="mt-8 font-serif text-[26px]">{s.t}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-[#5A524D]">{s.b}</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-[#5E4F5C]">{s.b}</p>
             </div>
           ))}
         </div>
@@ -174,17 +175,17 @@ export function Landing() {
       <section className="bg-espresso text-oat">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-2 md:items-center">
           <div>
-            <p className="text-[12px] font-medium tracking-[0.18em] text-[#C9BFB6] uppercase">It changes with you</p>
+            <p className="text-[12px] font-medium tracking-[0.18em] text-[#DCC4D0] uppercase">It changes with you</p>
             <h2 className="mt-3 font-serif text-[40px] leading-tight sm:text-[52px]">Four kinds of days. <em className="text-[#F7A8C6]">Zero</em> wrong answers.</h2>
-            <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[#D9D0C8]">You pick your energy. The colours, the suggestions and Nina’s note all shift to match. Rest isn’t a pause button; it’s its own calm, complete little world.</p>
+            <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[#EBDBE3]">You pick your energy. The colours, the suggestions and Nina’s note all shift to match. Rest isn’t a pause button; it’s its own calm, complete little world.</p>
             <div role="tablist" aria-label="Preview an energy state" className="mt-8 grid max-w-md grid-cols-2 gap-2 sm:grid-cols-4">
               {(['high', 'steady', 'low', 'rest'] as EnergyState[]).map((s) => (
-                <button key={s} role="tab" aria-selected={preview === s} onClick={() => setPreview(s)} className={cx('flex min-h-12 items-center justify-center gap-2 rounded-[14px] border px-3 text-[14px] font-medium transition', preview === s ? 'border-oat bg-oat text-espresso' : 'border-[#5A4F4B] text-oat hover:border-oat')}>
+                <button key={s} role="tab" aria-selected={preview === s} onClick={() => setPreview(s)} className={cx('flex min-h-12 items-center justify-center gap-2 rounded-[14px] border px-3 text-[14px] font-medium transition', preview === s ? 'border-oat bg-oat text-espresso' : 'border-[#5C4659] text-oat hover:border-oat')}>
                   <StateIcon state={s} size={18} />{STATE_META[s].short}
                 </button>
               ))}
             </div>
-            <p className="mt-4 text-[14px] text-[#C9BFB6]">{STATE_META[preview].feel} · {STATE_META[preview].sizeHint}</p>
+            <p className="mt-4 text-[14px] text-[#DCC4D0]">{STATE_META[preview].feel} · {STATE_META[preview].sizeHint}</p>
           </div>
           <div role="tabpanel" aria-label={`${STATE_META[preview].label} preview`}>
             <MiniToday state={preview} />
@@ -201,9 +202,9 @@ export function Landing() {
             <img src="images/ski.jpg" alt="Nina smiling on a snowy mountain in ski gear" className="aspect-[4/3] w-full rounded-[24px] object-cover" />
           </div>
           <div>
-            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E6761] uppercase">Your friend, Nina</p>
+            <p className="text-[12px] font-medium tracking-[0.18em] text-[#6E5F6C] uppercase">Your friend, Nina</p>
             <h2 className="mt-3 font-serif text-[40px] leading-tight sm:text-[52px]">Not a coach. Not a guru. Just a friend who gets it.</h2>
-            <p className="mt-5 text-[16px] leading-relaxed text-[#5A524D]">Nina is a Vancouver lifestyle creator who spends her days somewhere between a mountain summit, a seawall run and a very honest chat from the driver’s seat. This app is her energy in your pocket: practical, funny, and totally fine with you having a couch day.</p>
+            <p className="mt-5 text-[16px] leading-relaxed text-[#5E4F5C]">Nina is a Vancouver lifestyle creator who spends her days somewhere between a mountain summit, a seawall run and a very honest chat from the driver’s seat. This app is her energy in your pocket: practical, funny, and totally fine with you having a couch day.</p>
             <p className="mt-6 font-hand text-[30px] text-pink-deep">see you in there — Nina</p>
             <p className="mt-6 inline-block rounded-full bg-blush px-3 py-1 text-[12px] text-[#6E3A4E]">Prototype · Nina’s copy is a draft until she signs off</p>
           </div>
@@ -216,15 +217,14 @@ export function Landing() {
         <div className="relative mx-auto max-w-6xl px-5 py-24 text-center">
           <h2 className="font-serif text-[46px] leading-tight sm:text-[64px]">Okay, let’s start with today.</h2>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <button onClick={enter} className="inline-flex min-h-14 items-center gap-2 rounded-[14px] bg-white px-8 text-[16px] font-medium text-[#B0003F] shadow-lg hover:bg-oat">Open My Friend Nina <Arrow size={18} /></button>
-            <button onClick={demo} className="inline-flex min-h-14 items-center gap-2 rounded-[14px] border border-white/60 px-6 text-[16px] font-medium hover:bg-white/10"><Pen size={18} /> Try it with sample data</button>
+            <button onClick={enter} className="group inline-flex min-h-[60px] items-center gap-3 rounded-full bg-white py-2 pr-2 pl-8 text-[17px] font-semibold text-pink-deep shadow-[0_18px_36px_-14px_rgba(42,30,44,.55)] transition hover:-translate-y-0.5">Come on in <span className="grid size-11 place-items-center rounded-full bg-pink text-white"><Arrow size={18} /></span></button>
           </div>
         </div>
       </section>
 
       {/* footer */}
       <footer className="bg-oat">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 text-[14px] text-[#5A524D] md:flex-row md:items-start md:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 text-[14px] text-[#5E4F5C] md:flex-row md:items-start md:justify-between">
           <div>
             <p className="font-serif text-[22px] italic text-espresso">my friend <span className="text-pink">nina</span></p>
             <p className="mt-2 max-w-sm">Nina is a friend, not a professional. Nothing here is medical or mental-health advice. Everything you save stays on your device.</p>
@@ -236,7 +236,7 @@ export function Landing() {
             <Link to="/about" className="hover:text-espresso">Disclaimer</Link>
           </nav>
         </div>
-        <p className="border-t border-[#E8E0D8] py-4 text-center text-[12px] text-[#6E6761]">Interactive prototype · Not a public product yet · Photos are placeholders pending Nina’s approved assets</p>
+        <p className="border-t border-[#F2DDE5] py-4 text-center text-[12px] text-[#6E5F6C]">Interactive prototype · Not a public product yet · Photos are placeholders pending Nina’s approved assets</p>
       </footer>
     </div>
   );

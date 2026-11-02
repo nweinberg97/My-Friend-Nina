@@ -27,7 +27,7 @@ export function App() {
     const m = isLanding || path === '/welcome' || (isInfo && !prefs.onboarded) ? 'high' : mood;
     document.documentElement.dataset.mood = m;
     const meta = document.querySelector('meta[name="theme-color"]');
-    meta?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#F9F4EE');
+    meta?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#FFF5F3');
   }, [mood, isLanding, isInfo, prefs.onboarded, path]);
 
   const embedded = window.self !== window.top;

@@ -179,17 +179,11 @@ export function Today() {
             {/* Quick reflection */}
             <section aria-labelledby="ref-h" className="mt-8">
               <h2 id="ref-h" className="font-serif text-[24px]">Anything on your mind?</h2>
-              <div className="mt-3 grid grid-cols-3 gap-2">
-                {[
-                  { to: '/reflections/new/voice', label: 'Voice note', Icon: Mic },
-                  { to: '/reflections/new/write', label: 'Write', Icon: Pen },
-                  { to: '/reflections/new/get-it-out', label: 'Get it out', Icon: Wind },
-                ].map(({ to, label, Icon }) => (
-                  <Link key={to} to={to} className="flex min-h-[84px] flex-col items-center justify-center gap-2 rounded-[16px] border border-line bg-surface text-[14px] font-medium hover:border-accent">
-                    <Icon size={22} />{label}
-                  </Link>
-                ))}
+              <div className="mt-3 flex gap-2">
+                <Link to="/reflections/new/voice" className="flex min-h-14 flex-1 items-center justify-center gap-2 rounded-[16px] bg-accent text-[15px] font-medium text-accent-ink shadow-[0_8px_20px_-12px_var(--accent)]"><Mic size={20} /> Talk</Link>
+                <Link to="/reflections/new/write" className="flex min-h-14 flex-1 items-center justify-center gap-2 rounded-[16px] border border-line bg-surface text-[15px] font-medium hover:border-accent"><Pen size={20} /> Type</Link>
               </div>
+              <Link to="/reflections/new/get-it-out" className="mt-2 flex min-h-11 items-center gap-2 text-[14px] text-accent-text"><Wind size={17} /> Head too loud? Get it out instead</Link>
             </section>
 
             {/* gentle week */}

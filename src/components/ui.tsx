@@ -69,7 +69,7 @@ export function BottomNav({ path }: { path: string }) {
   return (
     <nav aria-label="Main" className="safe-bottom fixed inset-x-0 bottom-0 z-30">
       <div className="mx-auto max-w-[560px] px-4 pb-3">
-        <div className="mood-surface flex rounded-[22px] border border-line bg-surface/92 p-1.5 shadow-[0_10px_30px_-12px_rgba(43,38,37,.25)] backdrop-blur-md">
+        <div className="mood-surface flex rounded-[22px] border border-line bg-surface/92 p-1.5 shadow-[0_10px_30px_-12px_rgba(42,30,44,.25)] backdrop-blur-md">
           {TABS.map(({ to, label, Icon }) => {
             const active = path.startsWith(to);
             return (
@@ -122,7 +122,7 @@ export function Sheet({ open, onClose, title, children }: { open: boolean; onClo
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center">
-      <div className="anim-fade absolute inset-0 bg-[#2B2625]/35" onClick={onClose} aria-hidden="true" />
+      <div className="anim-fade absolute inset-0 bg-[#2A1E2C]/35" onClick={onClose} aria-hidden="true" />
       <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className="anim-sheet mood-surface safe-bottom relative max-h-[88dvh] w-full max-w-[560px] overflow-y-auto rounded-t-[28px] bg-surface outline-none">
         <div className="sticky top-0 z-10 flex items-center justify-between bg-surface/95 px-5 pt-3 pb-2 backdrop-blur">
           <span className="mx-auto mb-1 block h-1.5 w-10 rounded-full bg-line" aria-hidden="true" />
@@ -219,9 +219,11 @@ export function AudioPlayer({ src, duration, label }: { src?: string | null; dur
 
 export function Blobs() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[420px] overflow-hidden">
-      <div className="anim-drift absolute -top-24 -right-20 size-72 rounded-full bg-glow opacity-60 blur-3xl" />
-      <div className="anim-drift absolute top-24 -left-24 size-60 rounded-full bg-soft opacity-70 blur-3xl" style={{ animationDelay: '-6s' }} />
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[520px] overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-soft/70 via-soft/25 to-transparent" />
+      <div className="anim-drift absolute -top-28 -right-16 size-80 rounded-full bg-glow opacity-80 blur-3xl" />
+      <div className="anim-drift absolute top-28 -left-28 size-72 rounded-full bg-glow-2 opacity-70 blur-3xl" style={{ animationDelay: '-6s' }} />
+      <div className="anim-drift absolute top-4 left-1/3 size-40 rounded-full bg-accent opacity-[.14] blur-3xl" style={{ animationDelay: '-3s' }} />
     </div>
   );
 }

@@ -17,40 +17,81 @@ function useLeaveGuard(dirty: boolean) {
   return { leave, guard };
 }
 
-export function NewWrite({ initialPrompt }: { initialPrompt?: string }) {
+/* One composer for everyday reflecting. Talking or typing is just how you say it,
+   not a different feature: same prompt, same save, same place in your collection. */
+export function NewWrite({ initialPrompt, initialMode = 'type' }: { initialPrompt?: string; initialMode?: 'type' | 'talk' }) {
   const { addReflection, toast, mood, today } = useApp();
+  const [mode, setMode] = useState<'type' | 'talk'>(initialMode);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [blob, setBlob] = useState<Blob | null>(null);
+  const [secs, setSecs] = useState(0);
   const [prompt, setPrompt] = useState(initialPrompt);
-  const { leave, guard } = useLeaveGuard(!!(title.trim() || body.trim()));
+  const { leave, guard } = useLeaveGuard(!!(title.trim() || body.trim() || blob));
+  const ready = mode === 'type' ? !!body.trim() : !!blob;
   const save = async () => {
+    if (!ready) return;
     try {
-      await addReflection({ type: 'text', title: title.trim() || undefined, body: body.trim(), prompt, state: mood });
-      toast('Saved to your reflections');
+      if (mode === 'talk' && blob) {
+        await addReflection({ type: 'voice', title: title.trim() || 'Voice note', durationSec: secs, prompt, state: mood }, blob);
+        toast('Saved on this device');
+      } else {
+        await addReflection({ type: 'text', title: title.trim() || undefined, body: body.trim(), prompt, state: mood });
+        toast('Saved to your reflections');
+      }
       navigate('/reflections', { replace: true });
     } catch {
-      toast("Well, that didn't work. Your words are still here. Let's try again.");
+      toast("Well, that didn't work. It's still here. Let's try again.");
     }
   };
   return (
     <Page nav={false}>
-      <TopBar title="Write something" onBack={leave} right={<Button variant="ghost" className="min-h-10 px-3" disabled={!body.trim()} onClick={save}>Save</Button>} />
+      <TopBar title="Reflect" onBack={leave} right={<Button variant="ghost" className="min-h-10 px-3" disabled={!ready} onClick={save}>Save</Button>} />
       <div className="px-5 pb-10">
-        <p className="text-[13px] text-muted">{prettyDate(today)}</p>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-[13px] text-muted">{prettyDate(today)}</p>
+          <div role="radiogroup" aria-label="How do you want to say it?" className="flex rounded-full bg-soft/80 p-1">
+            {([['type', 'Type', Pen], ['talk', 'Talk', Mic]] as const).map(([id, label, Icon]) => (
+              <button key={id} role="radio" aria-checked={mode === id} onClick={() => setMode(id)} className={cx('flex min-h-9 items-center gap-1.5 rounded-full px-3.5 text-[14px] font-medium transition', mode === id ? 'bg-surface text-accent-text shadow-sm' : 'text-muted')}>
+                <Icon size={15} />{label}
+              </button>
+            ))}
+          </div>
+        </div>
         {prompt ? (
-          <div className="mt-3 flex items-start gap-2 rounded-[14px] bg-soft/70 px-4 py-3">
+          <div className="mt-4 flex items-start gap-2 rounded-[14px] bg-soft/70 px-4 py-3">
             <p className="flex-1 font-hand text-[23px] leading-snug">{prompt}</p>
             <button className="min-h-9 text-[13px] text-muted" onClick={() => setPrompt(pick(REFLECTION_PROMPTS, String(Date.now())))}>Another</button>
             <button className="min-h-9 text-[13px] text-muted" onClick={() => setPrompt(undefined)}>None</button>
           </div>
         ) : (
-          <button className="mt-3 text-[14px] text-accent-text" onClick={() => setPrompt(pick(REFLECTION_PROMPTS, String(Date.now())))}>Want a prompt?</button>
+          <button className="mt-4 text-[14px] text-accent-text" onClick={() => setPrompt(pick(REFLECTION_PROMPTS, String(Date.now())))}>Want a prompt?</button>
         )}
-        <label className="sr-only" htmlFor="t">Title</label>
-        <input id="t" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title (optional)" maxLength={60} className="mt-5 w-full bg-transparent font-serif text-[28px] outline-none placeholder:text-muted/60" />
-        <label className="sr-only" htmlFor="b">Your reflection</label>
-        <textarea id="b" autoFocus value={body} onChange={(e) => setBody(e.target.value)} rows={10} placeholder="Whatever’s on your mind. No need to make it pretty." className="mt-3 min-h-[280px] w-full resize-none bg-transparent text-[18px] leading-relaxed outline-none placeholder:text-muted/70" />
-        <Button full disabled={!body.trim()} onClick={save}>Save reflection</Button>
+        {mode === 'type' ? (
+          <div key="type" className="anim-fade">
+            <label className="sr-only" htmlFor="t">Title</label>
+            <input id="t" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title (optional)" maxLength={60} className="mt-5 w-full bg-transparent font-serif text-[28px] outline-none placeholder:text-muted/60" />
+            <label className="sr-only" htmlFor="b">Your reflection</label>
+            <textarea id="b" autoFocus value={body} onChange={(e) => setBody(e.target.value)} rows={10} placeholder="A line or a page. No need to make it pretty." className="mt-3 min-h-[260px] w-full resize-none bg-transparent text-[18px] leading-relaxed outline-none placeholder:text-muted/70" />
+            <Button full disabled={!body.trim()} onClick={save}>Save reflection</Button>
+          </div>
+        ) : (
+          <div key="talk" className="anim-fade mt-6">
+            <div className="flex items-start gap-3">
+              <Avatar size={40} />
+              <p className="flex-1 rounded-[18px] rounded-tl-[6px] bg-soft/70 px-4 py-3 text-[16px] leading-relaxed">Talk it out like you’re in the car with a friend. Ramble away. Nobody hears this but you.</p>
+            </div>
+            <div className="mt-6"><Recorder onChange={(b, s) => { setBlob(b); setSecs(s); }} /></div>
+            {blob && (
+              <div className="anim-rise mt-6">
+                <label htmlFor="vt" className="text-[14px] font-medium">Give it a name <span className="font-normal text-muted">(optional)</span></label>
+                <input id="vt" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={50} placeholder="e.g. Drive home thoughts" className="mt-1.5 w-full rounded-[12px] border border-line bg-surface px-4 py-3 text-[16px] outline-none focus:border-accent" />
+                <Button full className="mt-4" onClick={save}>Save voice note</Button>
+              </div>
+            )}
+            <p className="mt-6 text-center text-[13px] text-muted">Audio stays on this device. Your mic is only on while you’re recording.</p>
+          </div>
+        )}
       </div>
       {guard}
     </Page>
@@ -58,42 +99,7 @@ export function NewWrite({ initialPrompt }: { initialPrompt?: string }) {
 }
 
 export function NewVoice() {
-  const { addReflection, toast, mood } = useApp();
-  const [blob, setBlob] = useState<Blob | null>(null);
-  const [secs, setSecs] = useState(0);
-  const [title, setTitle] = useState('');
-  const { leave, guard } = useLeaveGuard(!!blob);
-  const save = async () => {
-    if (!blob) return;
-    try {
-      await addReflection({ type: 'voice', title: title.trim() || 'Voice note', durationSec: secs, state: mood }, blob);
-      toast('Voice note saved on this device');
-      navigate('/reflections', { replace: true });
-    } catch {
-      toast("Couldn't save that one. Your device storage might be full.");
-    }
-  };
-  return (
-    <Page nav={false}>
-      <TopBar title="Voice note" onBack={leave} />
-      <div className="px-5 pb-10">
-        <div className="flex items-start gap-3">
-          <Avatar size={40} />
-          <p className="flex-1 rounded-[18px] rounded-tl-[6px] bg-soft/70 px-4 py-3 text-[16px] leading-relaxed">Talk it out like you’re in the car with a friend. Ramble away. Nobody hears this but you.</p>
-        </div>
-        <div className="mt-6"><Recorder onChange={(b, s) => { setBlob(b); setSecs(s); }} /></div>
-        {blob && (
-          <div className="anim-rise mt-6">
-            <label htmlFor="vt" className="text-[14px] font-medium">Give it a name <span className="font-normal text-muted">(optional)</span></label>
-            <input id="vt" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={50} placeholder="e.g. Drive home thoughts" className="mt-1.5 w-full rounded-[12px] border border-line bg-surface px-4 py-3 text-[16px] outline-none focus:border-accent" />
-            <Button full className="mt-4" onClick={save}>Save voice note</Button>
-          </div>
-        )}
-        <p className="mt-6 text-center text-[13px] text-muted">Audio stays in this browser. Your mic is only used while you’re recording.</p>
-      </div>
-      {guard}
-    </Page>
-  );
+  return <NewWrite initialMode="talk" />;
 }
 
 export function GetItOut() {
@@ -230,7 +236,7 @@ export function NoteFlow({ editId }: { editId?: string }) {
           <Eyebrow>{step + 1} of 3</Eyebrow>
           <h1 className="mt-2 font-serif text-[32px] leading-[1.1]">{s.q}</h1>
           <label htmlFor="nf" className="sr-only">{s.q}</label>
-          <textarea id="nf" autoFocus rows={5} value={n[s.key]} onChange={(e) => setN({ ...n, [s.key]: e.target.value })} placeholder={s.ph} className="paper mt-6 w-full rounded-[18px] border border-line bg-[#FFF8E8] p-4 font-hand text-[24px] leading-snug text-[#3A302B] outline-none focus:border-accent" />
+          <textarea id="nf" autoFocus rows={5} value={n[s.key]} onChange={(e) => setN({ ...n, [s.key]: e.target.value })} placeholder={s.ph} className="paper mt-6 w-full rounded-[18px] border border-line bg-[#FFF8E8] p-4 font-hand text-[24px] leading-snug text-[#3A2A36] outline-none focus:border-accent" />
           <div className="mt-6 flex gap-2">
             {step < 2 ? <Button full onClick={() => setStep(step + 1)} disabled={!n[s.key].trim()}>Next</Button> : <Button full onClick={save} disabled={!n.forward.trim()}><Pin size={18} /> {existing ? 'Save note' : 'Pin my note'}</Button>}
           </div>
@@ -250,7 +256,7 @@ export function NoteDetail({ id }: { id: string }) {
     <Page nav={false}>
       <TopBar title="A little note to me" onBack={() => navigate('/reflections')} />
       <div className="px-5 pb-10">
-        <article className="paper rotate-[-.5deg] rounded-[22px] bg-[#FFF8E8] p-6 text-[#3A302B] shadow-[0_18px_40px_-24px_rgba(0,0,0,.45)]">
+        <article className="paper rotate-[-.5deg] rounded-[22px] bg-[#FFF8E8] p-6 text-[#3A2A36] shadow-[0_18px_40px_-24px_rgba(0,0,0,.45)]">
           <p className="text-[12px] tracking-[0.14em] uppercase opacity-60">{prettyDate(n.createdAt.slice(0, 10))}</p>
           <p className="mt-4 text-[13px] opacity-70">I’ve been giving myself a hard time about…</p>
           <p className="font-hand text-[24px] leading-snug">{n.lookBack}</p>

@@ -44,7 +44,8 @@ export function Onboarding() {
 
   return (
     <div className="mood-surface relative mx-auto flex min-h-dvh w-full max-w-[560px] flex-col overflow-hidden px-5">
-      <div aria-hidden="true" className="anim-drift absolute -top-20 -right-24 size-72 rounded-full bg-glow opacity-60 blur-3xl" />
+      <div aria-hidden="true" className="anim-drift absolute -top-20 -right-24 size-80 rounded-full bg-glow opacity-80 blur-3xl" />
+      <div aria-hidden="true" className="anim-drift absolute top-1/3 -left-28 size-72 rounded-full bg-glow-2 opacity-70 blur-3xl" style={{ animationDelay: '-7s' }} />
       <div className="safe-top relative flex h-16 items-center gap-3">
         <button onClick={prev} className="grid size-11 place-items-center rounded-full hover:bg-soft/60" aria-label="Back"><ChevronLeft /></button>
         <div className="flex flex-1 gap-1.5" aria-label={`Step ${step + 1} of ${STEPS}`} role="progressbar" aria-valuemin={1} aria-valuemax={STEPS} aria-valuenow={step + 1}>

@@ -25,15 +25,16 @@
   --color-soft: var(--soft);
   --color-line: var(--line);
   --color-glow: var(--glow);
+  --color-glow-2: var(--glow-2);
 
   /* fixed brand swatches (landing page, previews) */
-  --color-oat: #F9F4EE;
+  --color-oat: #FFF5F3;
   --color-studio: #FFFFFF;
   --color-pink: #E6005C;
   --color-pink-deep: #C4004E;
-  --color-blush: #F3DCE5;
+  --color-blush: #FCDCE8;
   --color-sage: #A3B18A;
-  --color-espresso: #2B2625;
+  --color-espresso: #2A1E2C;
   --color-sand: #F3EFE5;
   --color-cream: #FAF8F2;
   --color-rose: #DDA8A9;
@@ -52,55 +53,62 @@
 
 :root,
 [data-mood="high"] {
-  --bg: #F9F4EE;
+  --bg: #FFF5F3;
   --surface: #FFFFFF;
-  --ink: #2B2625;
-  --muted: #6E6761;
+  --ink: #2A1E2C;
+  --muted: #6E5F6C;
   --accent: #E6005C;
   --accent-ink: #FFFFFF;
   --accent-text: #C4004E;
-  --soft: #F3DCE5;
-  --line: #E8E0D8;
-  --glow: #F7C6D9;
+  --soft: #FCDCE8;
+  --line: #F2DDE5;
+  --glow: #FF9EC4;
+  --glow-2: #FFC7A8;
 }
 
+/* Steady: clear-sky blue */
 [data-mood="steady"] {
-  --bg: #F5F0E7;
-  --surface: #FFFDF9;
-  --ink: #3A302B;
-  --muted: #6A5F57;
-  --accent: #8C6A57;
+  --bg: #F1F6FD;
+  --surface: #FFFFFF;
+  --ink: #1C2740;
+  --muted: #56627C;
+  --accent: #2F6FE4;
   --accent-ink: #FFFFFF;
-  --accent-text: #7A5B4A;
-  --soft: #F3DCE5;
-  --line: #E6DDD1;
-  --glow: #EBD8CC;
+  --accent-text: #2459C2;
+  --soft: #DCE8FC;
+  --line: #DCE5F3;
+  --glow: #9CC2FF;
+  --glow-2: #FFC2DA;
 }
 
+/* Low battery: soft lilac, cosy and slow */
 [data-mood="low"] {
-  --bg: #EDF1E8;
-  --surface: #FAFBF7;
-  --ink: #2F3F35;
-  --muted: #56645A;
-  --accent: #4F6A59;
+  --bg: #F6F2FC;
+  --surface: #FFFFFF;
+  --ink: #2B2340;
+  --muted: #625A78;
+  --accent: #7A57D1;
   --accent-ink: #FFFFFF;
-  --accent-text: #46604F;
-  --soft: #DCE5D3;
-  --line: #D8DFD0;
-  --glow: #C9D6BD;
+  --accent-text: #6646C2;
+  --soft: #E9E0FA;
+  --line: #E5DDF3;
+  --glow: #C6B3F7;
+  --glow-2: #FFD0E2;
 }
 
+/* Rest: Coastal Calm, sea glass and eucalyptus */
 [data-mood="rest"] {
-  --bg: #F3EFE5;
-  --surface: #FAF8F2;
-  --ink: #293B3B;
-  --muted: #56645F;
-  --accent: #33504C;
+  --bg: #EEF6F2;
+  --surface: #FBFDFC;
+  --ink: #1E3936;
+  --muted: #4F6763;
+  --accent: #2E7D70;
   --accent-ink: #FFFFFF;
-  --accent-text: #33504C;
-  --soft: #D8DFD2;
-  --line: #E2DDD0;
-  --glow: #EBCFCF;
+  --accent-text: #286B60;
+  --soft: #D3EAE1;
+  --line: #D8E7E0;
+  --glow: #9FD9C8;
+  --glow-2: #F6C7C9;
 }
 
 html {
@@ -201,6 +209,11 @@ body {
 .anim-pop { animation: pop 320ms var(--ease-exhale) both; }
 .anim-drift { animation: drift 14s ease-in-out infinite; }
 .anim-rec { animation: pulse-rec 1.6s ease-out infinite; }
+.anim-open { animation: app-open 460ms cubic-bezier(.2,.85,.25,1) both; }
+.anim-close { animation: app-open 320ms cubic-bezier(.4,0,.6,1) reverse both; }
+.anim-nudge { animation: nudge 2.4s ease-in-out infinite; }
+@keyframes app-open { from { transform: scale(.12); opacity: 0; border-radius: 60px; } to { transform: none; opacity: 1; border-radius: 0; } }
+@keyframes nudge { 0%, 80%, 100% { transform: none; } 88% { transform: translateY(3px); } 94% { transform: translateY(-2px); } }
 .anim-banner { animation: banner-in 420ms cubic-bezier(.2,.9,.3,1.15) both; }
 .anim-waves { animation: wave-shift 18s linear infinite; }
 

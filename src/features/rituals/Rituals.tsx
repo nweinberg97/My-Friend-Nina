@@ -48,7 +48,7 @@ export function Rituals() {
                     <p className="font-serif text-[20px] leading-tight">{p.title}</p>
                     <p className="mt-1 text-[12.5px] leading-snug text-white/90">{p.note}</p>
                   </div>
-                  {r.selected && <span className="absolute top-3 right-3 grid size-7 place-items-center rounded-full bg-white/90 text-[#2B2625]" aria-label="In your rituals"><Check size={15} /></span>}
+                  {r.selected && <span className="absolute top-3 right-3 grid size-7 place-items-center rounded-full bg-white/90 text-[#2A1E2C]" aria-label="In your rituals"><Check size={15} /></span>}
                 </button>
               );
             })}
