@@ -76,7 +76,7 @@ export function Landing() {
       {/* header */}
       <header className="safe-top sticky top-0 z-30 bg-oat/85 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <a href="#/" className="font-serif text-[22px] italic" aria-label="My Friend Nina home">my friend <span className="text-pink">nina</span></a>
+          <a href="#/" className="flex items-center gap-2.5 font-serif text-[22px] italic" aria-label="My Friend Nina home"><img src="nina-n.svg" alt="" className="size-9 rounded-[10px] shadow-[0_4px_10px_-4px_rgba(230,0,92,.5)]" /><span>my friend <span className="text-pink">nina</span></span></a>
           <nav className="flex items-center gap-1 text-[14px]">
             <a href="#how" onClick={(e) => { e.preventDefault(); document.getElementById('how')?.scrollIntoView({ behavior: 'smooth' }); }} className="hidden rounded-full px-3 py-2 hover:bg-blush sm:block">How it works</a>
             <a href="#nina" onClick={(e) => { e.preventDefault(); document.getElementById('nina')?.scrollIntoView({ behavior: 'smooth' }); }} className="hidden rounded-full px-3 py-2 hover:bg-blush sm:block">About Nina</a>
@@ -255,7 +255,7 @@ export function Landing() {
       <footer className="bg-oat">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 text-[14px] text-[#5E4F5C] md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="font-serif text-[22px] italic text-espresso">my friend <span className="text-pink">nina</span></p>
+            <p className="flex items-center gap-2.5 font-serif text-[22px] italic text-espresso"><img src="nina-n.svg" alt="" className="size-8 rounded-[9px]" />my friend <span className="text-pink">nina</span></p>
             <p className="mt-2 max-w-sm">Nina is here as a friend: real encouragement for everyday life, not professional care. Nothing here replaces medical or mental-health advice. Everything you save stays on your device.</p>
           </div>
           <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">

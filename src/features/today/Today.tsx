@@ -50,7 +50,7 @@ export function Today() {
       <Blobs />
       <div className="safe-top relative px-5">
         <div className="flex h-16 items-center justify-between">
-          <span className="font-serif text-[20px] italic">my friend <span className="text-accent-text">nina</span></span>
+          <span className="flex items-center gap-2 font-serif text-[20px] italic"><img src="nina-n.svg" alt="" className="size-8 rounded-[9px]" />my friend <span className="text-accent-text">nina</span></span>
           <span className="flex items-center gap-1">
             <SiteLink />
             <Link to="/settings" className="grid size-11 place-items-center rounded-full text-muted hover:bg-soft/60" ariaLabel="Settings"><Settings size={21} /></Link>
