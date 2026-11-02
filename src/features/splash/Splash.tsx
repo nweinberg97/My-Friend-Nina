@@ -15,8 +15,8 @@ export function Splash({ leaving = false }: { leaving?: boolean }) {
       role="img"
       aria-label="My Friend Nina"
     >
-      <div aria-hidden="true" className="splash-glow absolute -top-24 -left-24 size-[380px] rounded-full bg-[#FFB38F] opacity-70 blur-3xl" />
-      <div aria-hidden="true" className="splash-glow absolute -right-28 bottom-10 size-[420px] rounded-full bg-[#B98CF0] opacity-60 blur-3xl" style={{ animationDelay: '-4s' }} />
+      <div aria-hidden="true" className="splash-glow absolute top-[10%] left-1/2 size-[440px] -translate-x-1/2 rounded-full bg-[#FFB38F] opacity-75 blur-3xl" />
+      <div aria-hidden="true" className="splash-glow absolute top-[18%] -left-20 size-[260px] rounded-full bg-[#FF8FBE] opacity-70 blur-3xl" style={{ animationDelay: '-4s' }} />
 
       {/* Nina's prints, fanned */}
       <div aria-hidden="true" className="relative h-[236px] w-full">

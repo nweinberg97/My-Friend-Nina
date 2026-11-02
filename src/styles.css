@@ -291,7 +291,7 @@ body::before {
 }
 
 /* Opening screen */
-.splash { background: radial-gradient(120% 80% at 50% 0%, #FF7AAE 0%, #F0236F 45%, #C4004E 100%); }
+.splash { background: radial-gradient(120% 70% at 50% 25%, #FF6FA8 0%, #F0236F 50%, #D9065F 100%); }
 .splash-mark { animation: splash-mark 800ms 380ms cubic-bezier(.2,.9,.25,1.05) both; }
 .splash-word { animation: rise 700ms 560ms var(--ease-exhale) both; }
 .splash-tag { animation: fade 700ms 760ms ease both; }
